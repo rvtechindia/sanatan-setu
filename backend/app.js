@@ -46,7 +46,7 @@ app.use("/api/v1/employer", employer);
 
 app.get("*", (req, res) => {
   // res.sendFile(path.resolve(__dirname, "../frontend/build/index.html"));
-  res.send("Hello World !");
+  res.send("Sanatan server working!");
 });
 
 // Middleware for Errors
