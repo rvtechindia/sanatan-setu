@@ -11,7 +11,8 @@ const {
   filterCompanyByLocation,
   newAddress,
   addToFav,
-  getFav
+  getFav,
+  companyByUser,
 } = require("../controllers/employerController");
 const { isAuthenticatedUser, authorizeRoles } = require("../middleware/auth");
 
@@ -48,6 +49,10 @@ router
 router
   .route("/new/address")
   .post(isAuthenticatedUser, authorizeRoles("employer"), newAddress);
+
+router
+  .route("/company/me")
+  .get(isAuthenticatedUser, authorizeRoles("employer"), companyByUser);
 // router
 //   .route("/company/:id")
 //   .put(isAuthenticatedUser, authorizeRoles("employer"));
@@ -72,7 +77,7 @@ router
 
 router.route("/get/company").get(isAuthenticatedUser, getCompanyDetails);
 router.route("/add/fav").post(isAuthenticatedUser, addToFav);
-router.route("/get/fav").get(isAuthenticatedUser, getFav)
+router.route("/get/fav").get(isAuthenticatedUser, getFav);
 
 // Normal User Route
 

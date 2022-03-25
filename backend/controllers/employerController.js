@@ -13,14 +13,39 @@ const Favorite = require("../models/favouriteModel");
 // features
 const ApiFeatures = require("../utils/apifeatures");
 
+//global function
+
+const companyStructure = (results) => {
+  var companies = [];
+
+  let i = 0;
+  // console.log(results.length);
+
+  while (i < results.length) {
+    companies = [
+      ...companies,
+      {
+        businessName: results[i].businessName,
+        category: results[i].category.businessCategory,
+        image: results[i].coverImage,
+        phone: "9560988343",
+        location: "Ghaziabad , UP",
+        Status: "Open",
+        id: results[i]._id,
+      },
+    ];
+
+    i++;
+  }
+  return companies;
+};
+
 // Add Company (employer)
 
 exports.addCompany = catchAsyncErrors(async (req, res, next) => {
   const { logo, coverImage } = req.body;
 
   let images = [];
-
- 
 
   // if (typeof req.body.logo === "string") {
   //   images.push(req.body.logo);
@@ -37,7 +62,7 @@ exports.addCompany = catchAsyncErrors(async (req, res, next) => {
   images.push(logo);
   images.push(coverImage);
 
-  console.log(images)
+  console.log(images);
 
   const imagesLink = [];
 
@@ -118,6 +143,8 @@ exports.searchByKeyword = catchAsyncErrors(async (req, res, next) => {
     .search()
     .filter();
   let searchData = await apiFeature.query;
+
+  searchData = companyStructure(searchData);
   res.status(200).json({ searchData, success: true });
 });
 
@@ -288,6 +315,7 @@ exports.addToFav = catchAsyncErrors(async (req, res, next) => {
   res.status(200).json({ success: true, message: "successfully Added" });
 });
 
+
 exports.getFav = catchAsyncErrors(async (req, res, next) => {
   const id = req.user._id;
   const results = await Favorite.find({ user: id }).populate("company");
@@ -314,4 +342,18 @@ exports.getFav = catchAsyncErrors(async (req, res, next) => {
     i++;
   }
   sendResponse(res, 200, companies);
+});
+
+exports.companyByUser = catchAsyncErrors(async (req, res, next) => {
+  const data = await Company.find({ user: req.user._id });
+
+  const results = companyStructure(data);
+
+  if (results.length > 0) {
+    return sendResponse(res, 200, results);
+  } else {
+    return res
+      .status(200)
+      .json({ success: true, message: "Register Your Business !" });
+  }
 });

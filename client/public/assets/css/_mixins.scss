@@ -1,0 +1,55 @@
+:root {
+    --heading: 'Poppins', sans-serif;
+    --ltn__body-font: 'Muli', sans-serif;
+    --box-shadow:0 5px 28.5px 1.5px rgba(149,152,200,.2);
+    --black: #000000;
+    --black-1:#242429;
+    --light-grey:#f4f4f4;
+    --light-grey-1:#f1f1f1;
+    --light-grey-2:#f6f7f6;
+    --light-grey-3:#fbfdff;
+    --light-grey-4:#f5f5f5;
+    --light-white:#f9f9f9;
+    --grey-1:#fafafa;
+    --grey-2:#ebebeb;
+    --white: #fff;
+    --white-1:#fbfeff;
+    --orange:#FFA500;
+    --yellow:#ffea31;
+    --red:red;
+    --green:#3c763d;
+    --orange-light-1:#FFC65F;
+    --orange-light-2:#FBD185;
+    --text:#635d5d;
+    --text-1:#484848;
+    --text-2:#898989;
+    --text-3:#a6a6ab;
+    --text-4:#757575;
+    --text-5:#8492af;
+    --text-6:#646464;
+    --text-7:#aaa;
+    --text-8:#4b586b;
+    --cyan-blue:#334e6f;
+    --label:#626a70;
+    --text-color:#797896;
+    --maroon:#fc3c3c;
+    --footer-bg:#121416;
+    --optionalColor:#666;
+    --input:#f9fafc;
+    --input-text:#646e77;
+    --border-color:#e3e3e3;
+    --border-color-1:#e0e5f3;
+    --border-color-2:#dde6ef;
+    --border-color-4:#ebebeb;
+    --line-break:#a7a7a7 ;
+    --transition: all .3s ease-in-out;
+    //--ltn__paragraph-color: #5C727D;
+    //--ltn__secondary-color: #FF5A3C;
+    //--ltn__primary-color: #000000;
+    //--ltn__heading-color: #071c1f;
+
+}
+//list
+@mixin list {margin: 0;padding: 0;}
+@mixin list-li {list-style: none;transition: var(--transition);}
+//end
