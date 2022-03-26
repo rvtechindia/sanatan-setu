@@ -36,6 +36,7 @@ const ListingPage = () => {
       alert("Sorry Not available!");
     }
   }, []);
+  
 
   const search = async (keyword, category) => {
     let link = `${apiURL}/api/v1/employer/company/search?keyword=${keyword}&category=${category}`;
