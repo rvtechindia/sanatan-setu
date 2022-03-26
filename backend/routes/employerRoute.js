@@ -75,7 +75,7 @@ router
 
 // Authenticated Route
 
-router.route("/get/company").get(isAuthenticatedUser, getCompanyDetails);
+router.route("/get/company").get(getCompanyDetails);
 router.route("/add/fav").post(isAuthenticatedUser, addToFav);
 router.route("/get/fav").get(isAuthenticatedUser, getFav);
 

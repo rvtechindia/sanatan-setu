@@ -7,6 +7,8 @@ import Carousel from "../components/carousel/Carousel";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 
+import { apiURL } from "../routes/api";
+
 const ListingPage = () => {
   const { company } = useSelector((state) => state.company);
   const { category } = useSelector((state) => state.category);
@@ -17,7 +19,7 @@ const ListingPage = () => {
 
   useEffect(() => {
     search(keyword);
-    searchByCategory(keyword)
+    searchByCategory(keyword);
   }, []);
 
   useEffect(() => {
@@ -27,7 +29,7 @@ const ListingPage = () => {
   const search = async (id) => {
     console.log("search");
     await axios
-      .get(`http://localhost:3001/api/v1/employer/company/search?keyword=${id}`)
+      .get(`${apiURL}/api/v1/employer/company/search?keyword=${id}`)
       .then((res) => setSearchData(res.data.searchData))
       .catch((e) => console.log(e));
     setTimeout(() => setLoading(false), 1000);
@@ -36,7 +38,7 @@ const ListingPage = () => {
   const searchByCategory = async (id) => {
     console.log("search");
     await axios
-      .get(`http://localhost:3001/api/v1/employer/company/search?category=${id}`)
+      .get(`${apiURL}/api/v1/employer/company/search?category=${id}`)
       .then((res) => setSearchData(res.data.searchData))
       .catch((e) => console.log(e));
     setTimeout(() => setLoading(false), 1000);

@@ -5,18 +5,21 @@ import { Caption } from "../components/breadcrum/Caption";
 import Carousel from "../components/carousel/Carousel";
 import Header from "../components/header/Header";
 
+import {notifyError} from "../utils/toast"
+
 import axios from "axios";
 
 /// actions import
 
 import { getcompanyDetails } from "../redux/actions/companyAction";
 
-export const ListingDetail = () => {
+export const ListingDetail = ({ history }) => {
   const dispatch = useDispatch();
 
   const { id } = useParams();
 
   const { company, loading } = useSelector((state) => state.companyDetail);
+  const { user, isAuthenticated } = useSelector((state) => state.user);
 
   const location = useLocation();
   useEffect(() => {
@@ -24,8 +27,15 @@ export const ListingDetail = () => {
     dispatch(getcompanyDetails(id));
   }, [location]);
 
+  useEffect(() => {
+    // if (!isAuthenticated) {
+    //   notifyError("please register/login to view company details")
+    //   history.push("/");
+    // }
+  }, []);
+
   const addToFav = async (id, name) => {
-    console.log(name)
+    console.log(name);
     const config = {
       headers: { "Content-Type": "application/json" },
       withCredentials: true,

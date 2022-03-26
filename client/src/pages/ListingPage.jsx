@@ -5,6 +5,7 @@ import { ListCard } from "../components/card/ListCard";
 import { Loader } from "../components/loader/Loader";
 import Carousel from "../components/carousel/Carousel";
 import axios from "axios";
+import { apiURL } from "../routes/api";
 
 const ListingPage = () => {
   const { company } = useSelector((state) => state.company);
@@ -37,12 +38,12 @@ const ListingPage = () => {
   }, []);
 
   const search = async (keyword, category) => {
-    let link = `http://localhost:3001/api/v1/employer/company/search?keyword=${keyword}&category=${category}`;
+    let link = `${apiURL}/api/v1/employer/company/search?keyword=${keyword}&category=${category}`;
     if (!keyword)
-      link = `http://localhost:3001/api/v1/employer/company/search?category=${category}`;
+      link = `${apiURL}/api/v1/employer/company/search?category=${category}`;
 
     if (!category)
-      link = `http://localhost:3001/api/v1/employer/company/search?keyword=${keyword}`;
+      link = `${apiURL}/api/v1/employer/company/search?keyword=${keyword}`;
 
     await axios
       .get(link)
@@ -114,7 +115,7 @@ const ListingPage = () => {
                           onClick={(e) => {
                             setLoading(true);
                             e.preventDefault();
-                            search(keyword,selectedCategory);
+                            search(keyword, selectedCategory);
                           }}
                         />
                       </div>
