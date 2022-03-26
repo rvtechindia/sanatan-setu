@@ -15,7 +15,7 @@ import {
 } from "../constants/companyConstants";
 import axios from "axios";
 
-const url = "http://localhost:3001/api/v1/employer";
+const url = "http://52.66.174.13:3001/api/v1/employer";
 
 // category
 export const getCompanies = () => async (dispatch) => {

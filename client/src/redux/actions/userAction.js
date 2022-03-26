@@ -26,7 +26,7 @@ import {
 } from "../constants/userConstants";
 import axios from "axios";
 
-const url = "http://localhost:3001";
+const url = "http://52.66.174.13:3001";
 
 // Login
 export const login = (email, password) => async (dispatch) => {
