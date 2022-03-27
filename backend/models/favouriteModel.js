@@ -13,6 +13,7 @@ const favouriteSchema = mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: "Company",
     required: true,
+    unique: true,
   },
   user: {
     type: mongoose.Schema.ObjectId,

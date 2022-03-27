@@ -5,7 +5,8 @@ import { Caption } from "../components/breadcrum/Caption";
 import Carousel from "../components/carousel/Carousel";
 import Header from "../components/header/Header";
 
-import {notifyError} from "../utils/toast"
+import { notifyError, notifySuccess } from "../utils/toast";
+import { apiURL } from "../routes/api";
 
 import axios from "axios";
 
@@ -13,7 +14,7 @@ import axios from "axios";
 
 import { getcompanyDetails } from "../redux/actions/companyAction";
 
-export const ListingDetail = ({ history }) => {
+export const ListingDetail = () => {
   const dispatch = useDispatch();
 
   const { id } = useParams();
@@ -27,31 +28,30 @@ export const ListingDetail = ({ history }) => {
     dispatch(getcompanyDetails(id));
   }, [location]);
 
-  useEffect(() => {
-    // if (!isAuthenticated) {
-    //   notifyError("please register/login to view company details")
-    //   history.push("/");
-    // }
-  }, []);
+  // useEffect(() => {
+  //   // if (!isAuthenticated) {
+  //   //   notifyError("please register/login to view company details")
+  //   //   history.push("/");
+  //   // }
+  // }, []);
 
   const addToFav = async (id, name) => {
-    console.log(name);
     const config = {
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     };
     axios
       .post(
-        `http://localhost:3001/api/v1/employer/add/fav?id=${id}`,
+        `${apiURL}/api/v1/employer/add/fav?id=${id}`,
         {
           businessName: name,
         },
         config
       )
       .then((res) => {
-        console.log(res.data);
+        notifySuccess("Added to Favourite");
       })
-      .catch((e) => console.log(e));
+      .catch((e) => notifyError(e));
   };
 
   return (
