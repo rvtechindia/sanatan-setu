@@ -8,6 +8,8 @@ import {
   clearErrors,
 } from "../redux/actions/categoryAction";
 
+import {notifySuccess} from "../utils/toast"
+
 import { newCompany } from "../redux/actions/companyAction";
 
 ///imports
@@ -69,6 +71,7 @@ const ListBusiness = () => {
     const data = setCompanyData(registrationData, logo, coverImage);
 
     dispatch(newCompany(data));
+    notifySuccess("Successfully Added")
   };
 
   const [registrationData, setRegistrationData] = useState({

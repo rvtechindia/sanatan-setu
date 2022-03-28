@@ -15,6 +15,8 @@ import {
 } from "../constants/companyConstants";
 import axios from "axios";
 
+import { notifySuccess, notifyError } from "../../utils/toast";
+
 const url = "http://52.66.174.13:3001/api/v1/employer";
 
 // category
@@ -78,9 +80,12 @@ export const newCompany = (companyData) => async (dispatch) => {
       config
     );
 
+    notifySuccess("Added Successfully");
+
     dispatch({ type: ADD_COMPANY_SUCCESS, payload: data.payload });
   } catch (error) {
     dispatch({ type: ADD_COMPANY_FAIL, payload: error.response.data.message });
+    notifyError(error.response.data.message);
   }
 };
 
