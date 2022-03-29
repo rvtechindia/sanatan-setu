@@ -14,6 +14,8 @@ const Amenity = require("../models/amenityModel");
 
 const BusinessAmenity = require("../models/businessAmenityModel");
 
+const Company = require("../models/companyModel");
+
 // Add Category (admin)
 
 exports.addCategory = catchAsyncErrors(async (req, res, next) => {
@@ -94,6 +96,13 @@ exports.updateSecondaryCategory = catchAsyncErrors(async (req, res, next) => {
 
 exports.getAllCategory = catchAsyncErrors(async (req, res, next) => {
   const categories = await Category.find();
+
+  let results;
+  let i;
+  while (i > categories.length) {
+    results = Company.find({ category: categories[i]._id });
+    i++;
+  }
 
   sendResponse(res, 200, categories);
 });

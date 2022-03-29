@@ -1,4 +1,4 @@
-import React from "react";
+import React,{ useEffect} from "react";
 import HomeBanner from "../components/banner/HomeBanner";
 import { CategoryCard } from "../components/card/CategoryCard";
 import { ListCard } from "../components/card/ListCard";
@@ -12,6 +12,10 @@ import { useSelector } from "react-redux";
 export const Home = () => {
   const { company } = useSelector((state) => state.company);
   const { category } = useSelector((state) => state.category);
+
+  useEffect(() =>{
+    window.scroll(0,0)
+  },[])
  
   return (
     <>

@@ -7,8 +7,6 @@ const Company = require("../models/companyModel");
 exports.isAuthenticatedUser = catchAsyncErrors(async (req, res, next) => {
   const { token } = req.cookies;
 
-  console.log(token)
-
   if (!token) {
     return next(new ErrorHander("Please Login to access this resource", 401));
   }

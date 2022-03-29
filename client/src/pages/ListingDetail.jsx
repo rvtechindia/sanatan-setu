@@ -255,9 +255,9 @@ export const ListingDetail = () => {
                           your business.
                         </p>
                         <p>
-                          <a href="#" className="button">
+                          <Link to="/" className="button">
                             Claim This Listing
-                          </a>
+                          </Link>
                         </p>
                       </div>
                     </div>

@@ -9,6 +9,7 @@ const BusinessHour = require("../models/businessHourModel");
 const Address = require("../models/addressModel");
 const Document = require("../models/documentModel");
 const Favorite = require("../models/favouriteModel");
+const Gallary = require("../models/gallaryModel");
 
 // features
 const ApiFeatures = require("../utils/apifeatures");
@@ -38,6 +39,30 @@ const companyStructure = (results) => {
     i++;
   }
   return companies;
+};
+
+const imageStructure = async (imageData) => {
+  let images = [];
+
+  if (imageData.length > 0) images = imageData;
+
+  // images.push(imageData);
+  console.log(imageData);
+
+  const imagesLink = [];
+
+  for (let i = 0; i < images.length; i++) {
+    const result = await cloudinary.v2.uploader.upload(images[i], {
+      folder: "employer",
+      quality: 50,
+    });
+    imagesLink.push({
+      public_id: result.public_id,
+      url: result.secure_url,
+    });
+  }
+
+  return imagesLink;
 };
 
 // Add Company (employer)
@@ -310,11 +335,17 @@ exports.addToFav = catchAsyncErrors(async (req, res, next) => {
   req.body.company = id;
   req.body.user = req.user;
 
+  const exits = await Favorite.findOne({ user: req.user });
+
+  if (exits)
+    return res
+      .status(201)
+      .json({ success: true, message: "Already Exits in Favourite list" });
+
   const fav = await Favorite.create(req.body);
 
   res.status(200).json({ success: true, message: "successfully Added" });
 });
-
 
 exports.getFav = catchAsyncErrors(async (req, res, next) => {
   const id = req.user._id;
@@ -356,4 +387,16 @@ exports.companyByUser = catchAsyncErrors(async (req, res, next) => {
       .status(200)
       .json({ success: true, message: "Register Your Business !" });
   }
+});
+
+//gallary
+
+exports.addGallary = catchAsyncErrors(async (req, res, next) => {
+  req.body.user = req.user;
+  req.body.company = req.company;
+  const resultimage = await imageStructure(req.body.images);
+  req.body.images = resultimage;
+  const result = await Gallary.create(req.body);
+
+  sendResponse(res, 200, result);
 });

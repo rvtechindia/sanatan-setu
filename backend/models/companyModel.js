@@ -88,6 +88,11 @@ const companySchema = new mongoose.Schema({
     enum: ["Premium", "Cheap", "Medium", "Prefer to say"],
     default: "Prefer to say",
   },
+  featured:{
+    type:String, 
+    enum:["true","false"],
+    default:false
+  }
 });
 
 module.exports = mongoose.model("Company", companySchema);

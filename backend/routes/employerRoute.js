@@ -13,6 +13,7 @@ const {
   addToFav,
   getFav,
   companyByUser,
+  addGallary,
 } = require("../controllers/employerController");
 const { isAuthenticatedUser, authorizeRoles } = require("../middleware/auth");
 
@@ -105,5 +106,10 @@ router.route("/company/filter").get(filterCompanyByLocation);
 // router.route("/category/all").get();
 // router.route("/primarycategory/:category").get();
 // router.route("/secondarycategory/:primary").get();
+
+//gallary
+router
+  .route("/new/gallary")
+  .post(isAuthenticatedUser, authorizeRoles("employer"), addGallary);
 
 module.exports = router;

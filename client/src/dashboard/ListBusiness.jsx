@@ -11,12 +11,13 @@ import {
 import { notifyError, notifySuccess } from "../utils/toast";
 
 import { newCompany } from "../redux/actions/companyAction";
-import Gallary from "./Business/Gallary";
+
+import { Loader } from "../components/loader/Loader";
 
 ///imports
 
 const ListBusiness = ({ history }) => {
-  const { category, loading, error } = useSelector((state) => state.category);
+  const { category } = useSelector((state) => state.category);
   const { isAuthenticated } = useSelector((state) => state.user);
   const { amenity } = useSelector((state) => state.amenity);
   const [selectCategory, setSelectCategory] = useState("");
@@ -24,12 +25,14 @@ const ListBusiness = ({ history }) => {
   const [logo, setLogo] = useState([]);
   const [coverImage, setCoverImage] = useState([]);
 
+  const [loading, setLoading] = useState(0);
+
   useEffect(() => {
     dispatch(getCategories());
 
     if (!isAuthenticated) {
-      notifyError("login first")
-      history.push("/login")
+      notifyError("login first");
+      history.push("/login");
     }
   }, [isAuthenticated]);
 
@@ -74,11 +77,10 @@ const ListBusiness = ({ history }) => {
     console.log(registrationData);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const data = setCompanyData(registrationData, logo, coverImage);
-
-    dispatch(newCompany(data));
-    // notifySuccess("Successfully Added")
+    await dispatch(newCompany(data))
+    setLoading(0)
   };
 
   const [registrationData, setRegistrationData] = useState({
@@ -93,6 +95,7 @@ const ListBusiness = ({ history }) => {
   });
 
   const setCompanyData = (data, logo, coverImage) => {
+    setLoading(1);
     const formData = new FormData();
     formData.append("businessName", data.businessName);
     formData.append("website", data.website);
@@ -142,13 +145,13 @@ const ListBusiness = ({ history }) => {
 
   return (
     <>
+      {loading && <Loader />}
       <Caption title="List Business">
         <Header />
       </Caption>
       <section className="padding40 " style={{ marginTop: -90 }}>
         <div className="container">
           <div className="row">
-
             <div className="col-md-12">
               <div className="submit-job-form">
                 <div className="title">
@@ -331,9 +334,7 @@ const ListBusiness = ({ history }) => {
             </div>
           </div>
         </div>
-        
       </section>
-     
     </>
   );
 };
