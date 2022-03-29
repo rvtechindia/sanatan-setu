@@ -8,14 +8,16 @@ import {
   clearErrors,
 } from "../redux/actions/categoryAction";
 
-import {notifySuccess} from "../utils/toast"
+import { notifyError, notifySuccess } from "../utils/toast";
 
 import { newCompany } from "../redux/actions/companyAction";
+import Gallary from "./Business/Gallary";
 
 ///imports
 
-const ListBusiness = () => {
+const ListBusiness = ({ history }) => {
   const { category, loading, error } = useSelector((state) => state.category);
+  const { isAuthenticated } = useSelector((state) => state.user);
   const { amenity } = useSelector((state) => state.amenity);
   const [selectCategory, setSelectCategory] = useState("");
   const dispatch = useDispatch();
@@ -24,7 +26,12 @@ const ListBusiness = () => {
 
   useEffect(() => {
     dispatch(getCategories());
-  }, []);
+
+    if (!isAuthenticated) {
+      notifyError("login first")
+      history.push("/login")
+    }
+  }, [isAuthenticated]);
 
   useEffect(() => {
     dispatch(getAmenityByCategory(selectCategory));
@@ -71,7 +78,7 @@ const ListBusiness = () => {
     const data = setCompanyData(registrationData, logo, coverImage);
 
     dispatch(newCompany(data));
-    notifySuccess("Successfully Added")
+    // notifySuccess("Successfully Added")
   };
 
   const [registrationData, setRegistrationData] = useState({
@@ -111,8 +118,6 @@ const ListBusiness = () => {
   const handleImage = (e) => {
     const { name } = e.target;
 
-    console.log(name);
-
     const files = Array.from(e.target.files);
 
     files.forEach((file) => {
@@ -143,6 +148,7 @@ const ListBusiness = () => {
       <section className="padding40 " style={{ marginTop: -90 }}>
         <div className="container">
           <div className="row">
+
             <div className="col-md-12">
               <div className="submit-job-form">
                 <div className="title">
@@ -312,6 +318,7 @@ const ListBusiness = () => {
                 </div>
               </div>
             </div>
+
             <div className="col-md-12 submit-job">
               <button
                 onClick={(e) => {
@@ -324,7 +331,9 @@ const ListBusiness = () => {
             </div>
           </div>
         </div>
+        
       </section>
+     
     </>
   );
 };

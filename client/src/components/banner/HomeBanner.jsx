@@ -35,6 +35,10 @@ const HomeBanner = () => {
                             type="text"
                             placeholder="What are you looking for?"
                             onChange={(e) => setKeyword(e.target.value)}
+                            onKeyDown={(e) =>
+                              e.key === "Enter" &&
+                              history.push(`/business/${keyword}`)
+                            }
                           />
                         </div>
                         <div className="col-md-3">

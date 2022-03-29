@@ -46,12 +46,12 @@ const Header = () => {
                   </li>
                   <li className="nav-item">
                     {" "}
-                    <Link to="/listingPage"  >Explore</Link>{" "}
+                    <Link to="/listingPage">Explore</Link>{" "}
                   </li>
 
                   <li className="nav-item">
                     {" "}
-                    <a href="#">Blog</a>{" "}
+                    <Link to="/listbusiness">Add Business</Link>{" "}
                   </li>
 
                   <li className="nav-item listing">

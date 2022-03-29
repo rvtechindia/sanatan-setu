@@ -8,6 +8,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 
 import { apiURL } from "../routes/api";
+import { Caption } from "../components/breadcrum/Caption";
 
 const ListingPage = () => {
   const { company } = useSelector((state) => state.company);
@@ -16,6 +17,8 @@ const ListingPage = () => {
   const [keywords, setKeyword] = useState("");
   const [loading, setLoading] = useState(false);
   const { keyword } = useParams();
+
+  const [breadcum, setBreadcum] = useState("");
 
   useEffect(() => {
     search(keyword);
@@ -27,19 +30,24 @@ const ListingPage = () => {
   }, []);
 
   const search = async (id) => {
-    console.log("search");
     await axios
       .get(`${apiURL}/api/v1/employer/company/search?keyword=${id}`)
-      .then((res) => setSearchData(res.data.searchData))
+      .then((res) => {
+        setSearchData(res.data.searchData);
+        setBreadcum("search Results");
+      })
       .catch((e) => console.log(e));
+
     setTimeout(() => setLoading(false), 1000);
   };
 
   const searchByCategory = async (id) => {
-    console.log("search");
     await axios
       .get(`${apiURL}/api/v1/employer/company/search?category=${id}`)
-      .then((res) => setSearchData(res.data.searchData))
+      .then((res) => {
+        setSearchData(res.data.searchData)
+        setBreadcum(res.data.searchData[0].category)
+      })
       .catch((e) => console.log(e));
     setTimeout(() => setLoading(false), 1000);
   };
@@ -48,34 +56,19 @@ const ListingPage = () => {
     <>
       <div className="banner-bg">
         <Header />
-        <figure className="mt-5">
-          <div className="container">
-            <div className="row category-banner">
-              <div className="col-md-12 text-center">
-                <h2>Welcome To The Biggest Business Directory</h2>
-                <p>
-                  It is a long established fact that a reader will be distracted
-                  by the readable.
-                </p>
-              </div>
-            </div>
-          </div>
-        </figure>
+        <Caption title={breadcum} />
       </div>
       <section className="padding80">
         <div className="container">
           <div className="row popular">
             <div className="col-md-12 text-center">
-              <h2>
-                {searchData.length > 0 ? "Search Results" : "No Result Found"}
-              </h2>
-              <p className="mb-5">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore
-                <br />
-                et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida.
-                Risus commodo viverra.
-              </p>
+              <h5>
+                {searchData.length > 0
+                  ? `Showing 1 – ${searchData && searchData.length} of ${
+                      searchData && searchData.length
+                    } results for '${breadcum}'`
+                  : "No Result Found"}
+              </h5>
             </div>
 
             <article>

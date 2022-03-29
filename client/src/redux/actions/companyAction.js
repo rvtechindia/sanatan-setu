@@ -12,12 +12,15 @@ import {
   COMPANY_ME_REQUEST,
   COMPANY_ME_SUCCESS,
   COMPANY_ME_FAIL,
+  FAVOURITE_REQUEST,
+  FAVOURITE_SUCCESS,
+  FAVOURITE_FAIL,
 } from "../constants/companyConstants";
 import axios from "axios";
 
 import { notifySuccess, notifyError } from "../../utils/toast";
 
-const url = "http://52.66.174.13:3001/api/v1/employer";
+const url = "http://localhost:3001/api/v1/employer";
 
 // category
 export const getCompanies = () => async (dispatch) => {
@@ -61,7 +64,25 @@ export const getcompanyDetails = (id) => async (dispatch) => {
 
 // favourite
 
-export const getFavourite = () => async (dispatch) => {};
+export const getFavourite = () => async (dispatch) => {
+  try {
+    dispatch({ type: FAVOURITE_REQUEST });
+
+    const config = {
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    };
+
+    const { data } = await axios.get(`${url}/get/fav`, config);
+
+    dispatch({ type: FAVOURITE_SUCCESS, payload: data.payload });
+  } catch (error) {
+    dispatch({
+      type: FAVOURITE_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
 
 // add company
 
@@ -106,3 +127,5 @@ export const getMyCompanies = () => async (dispatch) => {
     dispatch({ type: COMPANY_ME_FAIL, payload: error.response.data.message });
   }
 };
+
+//

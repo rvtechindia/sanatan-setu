@@ -1,7 +1,10 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link ,useHistory} from "react-router-dom";
 
 export const CategoryCard = ({ places, category, icon, image,id }) => {
+  const history = useHistory()
+
+  
   return (
     <>
       <div className="col-md-2">

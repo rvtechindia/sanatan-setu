@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Header from "../components/header/Header";
 import { useSelector } from "react-redux";
 import { ListCard } from "../components/card/ListCard";
@@ -7,13 +7,14 @@ import Carousel from "../components/carousel/Carousel";
 import axios from "axios";
 import { apiURL } from "../routes/api";
 
-const ListingPage = () => {
+const ListingPage = ({ history }) => {
   const { company } = useSelector((state) => state.company);
   const { category } = useSelector((state) => state.category);
   const [searchData, setSearchData] = useState([]);
   const [keyword, setKeyword] = useState("");
   const [loading, setLoading] = useState(false);
   const [selectedCategory, setCategory] = useState("");
+  const searchRef = useRef(null);
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -36,7 +37,10 @@ const ListingPage = () => {
       alert("Sorry Not available!");
     }
   }, []);
-  
+
+  const executeScroll = () => {
+    searchRef.current.scrollIntoView();
+  };
 
   const search = async (keyword, category) => {
     let link = `${apiURL}/api/v1/employer/company/search?keyword=${keyword}&category=${category}`;
@@ -48,7 +52,10 @@ const ListingPage = () => {
 
     await axios
       .get(link)
-      .then((res) => setSearchData(res.data.searchData))
+      .then((res) => {
+        setSearchData(res.data.searchData);
+        executeScroll();
+      })
       .catch((e) => console.log(e));
     setTimeout(() => setLoading(false), 1000);
   };
@@ -87,6 +94,11 @@ const ListingPage = () => {
                           type="text"
                           placeholder="Phrase or Keywords"
                           onChange={(e) => setKeyword(e.target.value)}
+                          onKeyDown={(e) => {
+                            setLoading(true);
+                            e.key === "Enter" &&
+                              search(keyword, selectedCategory);
+                          }}
                         />
                       </div>
                     </div>
@@ -186,11 +198,15 @@ const ListingPage = () => {
         </div>
       </section>
       {searchData.length > 0 && (
-        <section className="padding80">
+        <section className="padding80" ref={searchRef}>
           <div className="container">
             <div className="row popular">
               <div className="col-md-12 text-center">
-                <h2>Search Results</h2>
+                <h5>  {searchData.length > 0
+                  ? `Showing 1 – ${searchData && searchData.length} of ${
+                      searchData && searchData.length
+                    } results for '${keyword}'`
+                  : "No Result Found"}</h5>
                 <p className="mb-5">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
                   do eiusmod tempor incididunt ut labore

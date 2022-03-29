@@ -78,7 +78,7 @@ export const Home = () => {
           </div>
         </div>
       </article>
-      <article className="padding80">
+      {/* <article className="padding80">
         <div className="container">
           <div className="row jop-openings">
             <div className="col-md-12 text-center">
@@ -101,7 +101,7 @@ export const Home = () => {
               })}
           </div>
         </div>
-      </article>
+      </article> */}
       <article className="padding30">
         <div className="container">
           <div className="row join">

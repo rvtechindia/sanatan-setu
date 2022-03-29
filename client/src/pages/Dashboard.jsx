@@ -9,13 +9,15 @@ import { ListCard } from "../components/card/ListCard";
 
 //actions
 
-import { getMyCompanies } from "../redux/actions/companyAction";
+import { getMyCompanies, getFavourite } from "../redux/actions/companyAction";
+import { updateProfile } from "../redux/actions/userAction";
 
 export const Dashboard = ({ history }) => {
   const { user, loading, isAuthenticated, error } = useSelector(
     (state) => state.user
   );
   const { myBusiness } = useSelector((state) => state.myCompany);
+  const { fav } = useSelector((state) => state.wishlist);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -24,6 +26,19 @@ export const Dashboard = ({ history }) => {
     }
     dispatch(getMyCompanies());
   }, [isAuthenticated, history, dispatch]);
+
+  useEffect(() => {
+    dispatch(getFavourite());
+  }, []);
+
+  const handleProfileUpdate = () => {
+
+
+    const formData = new FormData();
+    formData.append()
+    formData.append()
+    dispatch(updateProfile());
+  };
 
   const signOutUser = () => {
     notifySuccess("Logout Successfully");
@@ -81,7 +96,7 @@ export const Dashboard = ({ history }) => {
                           aria-controls="new-listing"
                           aria-selected="false"
                         >
-                          <i className="far fa-file"></i> Submit New Listing
+                          <i className="far fa-file"></i> Add Gallary
                         </button>
                       </li>
                       <li className="nav-item" role="presentation">
@@ -254,7 +269,14 @@ export const Dashboard = ({ history }) => {
 
                               <div className="col-md-12 text-center mt-3">
                                 <div className="input-group">
-                                  <input type="submit" value="Update Profile" />
+                                  <input
+                                    type="submit"
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      handleProfileUpdate()
+                                    }}
+                                    value="Update Profile"
+                                  />
                                 </div>
                               </div>
                             </div>
@@ -270,7 +292,7 @@ export const Dashboard = ({ history }) => {
                         <div className="row justify-content-center">
                           <div className="col-md-10">
                             <div className="text-center">
-                              <h2>Submit My Listing</h2>
+                              <h2>Create a new gallary</h2>
                               <div className="icon">
                                 <div className="eltd-separator">
                                   <span style={{ width: 85, height: 1 }}></span>
@@ -302,10 +324,10 @@ export const Dashboard = ({ history }) => {
                                   <div className="col-md-12 text-center">
                                     {" "}
                                     <Link
-                                      to="/listbusiness"
+                                      to="/new/gallary"
                                       className="button mt-0"
                                     >
-                                      Add New Listing
+                                      Add New Gallary
                                       <i className="fas fa-chevron-right"></i>
                                     </Link>{" "}
                                   </div>
@@ -429,56 +451,21 @@ export const Dashboard = ({ history }) => {
                             <article>
                               <div className="container">
                                 <div className="row featured">
-                                  <ListCard
-                                    key="dd"
-                                    id="tech"
-                                    name="fdskjafl"
-                                    category="fldjflkas"
-                                    location="dfjljdas"
-                                    phone="9034930943"
-                                    image="3i0438943"
-                                    type="0034839483"
-                                  />
-                                  <ListCard
-                                    key="dd"
-                                    id="tech"
-                                    name="fdskjafl"
-                                    category="fldjflkas"
-                                    location="dfjljdas"
-                                    phone="9034930943"
-                                    image="3i0438943"
-                                    type="0034839483"
-                                  />
-                                  <ListCard
-                                    key="dd"
-                                    id="tech"
-                                    name="fdskjafl"
-                                    category="fldjflkas"
-                                    location="dfjljdas"
-                                    phone="9034930943"
-                                    image="3i0438943"
-                                    type="0034839483"
-                                  />
-                                  <ListCard
-                                    key="dd"
-                                    id="tech"
-                                    name="fdskjafl"
-                                    category="fldjflkas"
-                                    location="dfjljdas"
-                                    phone="9034930943"
-                                    image="3i0438943"
-                                    type="0034839483"
-                                  />
-                                  <ListCard
-                                    key="dd"
-                                    id="tech"
-                                    name="fdskjafl"
-                                    category="fldjflkas"
-                                    location="dfjljdas"
-                                    phone="9034930943"
-                                    image="3i0438943"
-                                    type="0034839483"
-                                  />
+                                  {fav &&
+                                    fav.map((item) => (
+                                      <>
+                                        <ListCard
+                                          key={item.id}
+                                          id={item.id}
+                                          name={item.businessName}
+                                          category={item.category}
+                                          location={item.location}
+                                          phone={item.phone}
+                                          image={item.image && item.image.url}
+                                          type={item.Status}
+                                        />
+                                      </>
+                                    ))}
                                 </div>
                               </div>
                             </article>

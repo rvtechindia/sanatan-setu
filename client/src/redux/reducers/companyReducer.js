@@ -12,6 +12,9 @@ import {
   COMPANY_ME_REQUEST,
   COMPANY_ME_SUCCESS,
   COMPANY_ME_FAIL,
+  FAVOURITE_REQUEST,
+  FAVOURITE_SUCCESS,
+  FAVOURITE_FAIL,
 } from "../constants/companyConstants";
 
 export const companyReducer = (state = { company: [] }, action) => {
@@ -121,6 +124,36 @@ export const myCompanyReducer = (state = { myBusiness: [] }, action) => {
         ...state,
         loading: false,
         myBusiness: null,
+        error: action.payload,
+      };
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const favReducer = (state = { fav: [] }, action) => {
+  switch (action.type) {
+    case FAVOURITE_REQUEST:
+      return {
+        loading: true,
+      };
+    case FAVOURITE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        fav: action.payload,
+      };
+    case FAVOURITE_FAIL:
+      return {
+        ...state,
+        loading: false,
+        fav: null,
         error: action.payload,
       };
     case CLEAR_ERRORS:

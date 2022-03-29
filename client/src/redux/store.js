@@ -18,6 +18,7 @@ import {
   companyDeatailReducer,
   newCompanyReducer,
   myCompanyReducer,
+  favReducer,
 } from "./reducers/companyReducer";
 
 const reducer = combineReducers({
@@ -30,6 +31,7 @@ const reducer = combineReducers({
   companyDetail: companyDeatailReducer,
   newCompany: newCompanyReducer,
   myCompany: myCompanyReducer,
+  wishlist: favReducer,
 });
 
 const persistConfig = {

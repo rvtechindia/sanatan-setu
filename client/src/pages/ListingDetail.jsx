@@ -49,7 +49,7 @@ export const ListingDetail = () => {
         config
       )
       .then((res) => {
-        notifySuccess("Added to Favourite");
+        notifySuccess(res.data.message);
       })
       .catch((e) => notifyError(e));
   };
@@ -188,21 +188,8 @@ export const ListingDetail = () => {
                           </ul>
                         </div>
                       </div>
-                      <div className="col-md-12 mt-4">
-                        <h4>Payment</h4>
-                        <div className="list-1 mt-3">
-                          <ul>
-                            <li>Cash</li>
-                            <li>Credit/Debit Cards</li>
-                            <li>Net Banking</li>
-                            <li>UPIs</li>
-                            <li>Paytm</li>
-                            <li>PhonePe</li>
-                            <li>GooglePay</li>
-                          </ul>
-                        </div>
-                      </div>
-                      <div className="col-md-12 mt-4">
+
+                      {/* <div className="col-md-12 mt-4">
                         <h4>Tags</h4>
                         <div className="list-2 mt-3">
                           <ul>
@@ -226,14 +213,14 @@ export const ListingDetail = () => {
                             </li>
                           </ul>
                         </div>
-                      </div>
-                      <div className="col-md-12 mt-4">
+                      </div> */}
+                      {/* <div className="col-md-12 mt-4">
                         <iframe
                           src="https://player.vimeo.com/video/101004693?h=e6c7054066&dnt=1&app_id=122963"
                           width="100%"
                           height="400"
                         ></iframe>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>
@@ -258,21 +245,23 @@ export const ListingDetail = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="box mt-5">
-                    <div className="heading">Claim Listing</div>
-                    <div className="claim">
-                      <p>Is this your business?</p>
-                      <p>
-                        Claim listing is the best way to manage and protect your
-                        business.
-                      </p>
-                      <p>
-                        <a href="#" className="button">
-                          Claim This Listing
-                        </a>
-                      </p>
+                  {!company && (
+                    <div className="box mt-5">
+                      <div className="heading">Claim Listing</div>
+                      <div className="claim">
+                        <p>Is this your business?</p>
+                        <p>
+                          Claim listing is the best way to manage and protect
+                          your business.
+                        </p>
+                        <p>
+                          <a href="#" className="button">
+                            Claim This Listing
+                          </a>
+                        </p>
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
               </div>
             </div>

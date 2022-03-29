@@ -23,6 +23,7 @@ import {getCompanies} from "./redux/actions/companyAction"
 import {getCategories} from "./redux/actions/categoryAction"
 import ListingPage from "./pages/ListingPage";
 import FilterPage from "./pages/FilterPage";
+import Gallary from "./dashboard/Business/Gallary";
 
 
 function App() {
@@ -51,6 +52,7 @@ function App() {
         <Route path="/test" component={Basic} />
         <Route path="/business/:keyword" component={FilterPage} />
         <Route path="/listbusiness" component={ListBusiness}/>
+        <Route path="/new/gallary" component={Gallary} />
       </Switch>
       <Footer />
     </>
