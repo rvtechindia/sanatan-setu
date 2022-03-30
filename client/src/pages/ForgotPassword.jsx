@@ -1,10 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "../components/header/Header";
 import { Caption } from "../components/breadcrum/Caption";
 import AuthContainer from "../components/auth/AuthContainer";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import {forgotPassword} from "../redux/actions/userAction"
+import { notifySuccess } from "../utils/toast";
+
 
 const ForgotPassword = () => {
+  const [email, setEmail] = useState();
+
+  const dispatch = useDispatch()
+
+  const handleSubmit =async()=>{
+    dispatch(forgotPassword({email}))
+   
+  };
+
   return (
     <>
       <Caption title="ForgotPassword">
@@ -15,10 +28,18 @@ const ForgotPassword = () => {
           <div className="title">Lost Password?</div>
           <div className="form">
             <div className="input-group">
-              <input type="text" placeholder="Enter username or email" />
+              <input
+                type="text"
+                placeholder="Enter username or email"
+                name="email"
+                onChange={(e) => setEmail(e.target.value)}
+              />
             </div>
             <div className="input-group text-center">
-              <button>New Password</button>
+              <button onClick={(e)=>{
+                e.preventDefault()
+                handleSubmit()
+              }} >New Password</button>
             </div>
             <div className="action-holder">
               <p>Password reset link will be sent to your email</p>

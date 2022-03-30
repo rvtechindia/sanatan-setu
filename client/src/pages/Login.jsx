@@ -3,11 +3,12 @@ import Header from "../components/header/Header";
 import { Caption } from "../components/breadcrum/Caption";
 import AuthContainer from "../components/auth/AuthContainer";
 import { Link } from "react-router-dom";
-import { login,clearErrors } from "../redux/actions/userAction";
+import { login, clearErrors } from "../redux/actions/userAction";
 import { useDispatch, useSelector } from "react-redux";
 import { notifyError, notifySuccess } from "../utils/toast";
+import GoogleAuth from "../utils/GoogleAuth";
 
-const Login = ({history}) => {
+const Login = ({ history }) => {
   const dispatch = useDispatch();
   const { user, loading, isAuthenticated, error } = useSelector(
     (state) => state.user
@@ -18,7 +19,6 @@ const Login = ({history}) => {
     password: "",
   });
   useEffect(() => {
-    
     if (isAuthenticated) {
       history.push("/dashboard");
       notifySuccess("Login Successfully");
@@ -28,14 +28,12 @@ const Login = ({history}) => {
       return;
     } else {
       notifyError(error);
-      dispatch(clearErrors())
+      dispatch(clearErrors());
     }
-
   }, [isAuthenticated, error]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log(loginDetails);
 
     switch (name) {
       case "email":
@@ -50,8 +48,7 @@ const Login = ({history}) => {
   };
 
   const handleLogin = () => {
-    console.log(loginDetails);
-    dispatch(login(loginDetails.email,loginDetails.password));
+    dispatch(login(loginDetails.email, loginDetails.password));
   };
 
   return (
@@ -114,28 +111,7 @@ const Login = ({history}) => {
             </div>
             <div className="social-login">
               <p>Connect with Social Networks</p>
-              <ul>
-                <li>
-                  <a href="#">
-                    <i className="fab fa-facebook-f"></i>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i className="fab fa-twitter"></i>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i className="fab fa-pinterest-p"></i>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i className="fab fa-linkedin-in"></i>
-                  </a>
-                </li>
-              </ul>
+             <GoogleAuth/>
             </div>
           </div>
         </div>

@@ -1,0 +1,1 @@
+export const  clinetId = 'dsjlfuaes09ru34jrfdsoru934i' 

@@ -25,6 +25,7 @@ import {
   CLEAR_ERRORS,
 } from "../constants/userConstants";
 import axios from "axios";
+import { notifyError, notifySuccess } from "../../utils/toast";
 
 const url = "http://52.66.174.13:3001";
 
@@ -117,8 +118,11 @@ export const updateProfile = (userData) => async (dispatch) => {
       config
     );
 
+    notifySuccess("Updated !");
+
     dispatch({ type: UPDATE_PROFILE_SUCCESS, payload: data.success });
   } catch (error) {
+    notifyError("Something went wrong");
     dispatch({
       type: UPDATE_PROFILE_FAIL,
       payload: error.response.data.message,
@@ -161,8 +165,11 @@ export const forgotPassword = (email) => async (dispatch) => {
       config
     );
 
+    notifySuccess("mail sent", data);
+
     dispatch({ type: FORGOT_PASSWORD_SUCCESS, payload: data.message });
   } catch (error) {
+    notifyError(error.response.data.message);
     dispatch({
       type: FORGOT_PASSWORD_FAIL,
       payload: error.response.data.message,
@@ -196,5 +203,3 @@ export const resetPassword = (token, passwords) => async (dispatch) => {
 export const clearErrors = () => async (dispatch) => {
   dispatch({ type: CLEAR_ERRORS });
 };
-
-

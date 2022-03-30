@@ -95,9 +95,11 @@ const ListingPage = ({ history }) => {
                           placeholder="Phrase or Keywords"
                           onChange={(e) => setKeyword(e.target.value)}
                           onKeyDown={(e) => {
-                            setLoading(true);
-                            e.key === "Enter" &&
+                            
+                            if(e.key === "Enter"){
+                              setLoading(true);
                               search(keyword, selectedCategory);
+                            }
                           }}
                         />
                       </div>

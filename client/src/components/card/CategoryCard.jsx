@@ -1,10 +1,9 @@
 import React from "react";
-import { Link ,useHistory} from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
-export const CategoryCard = ({ places, category, icon, image,id }) => {
-  const history = useHistory()
+export const CategoryCard = ({ places, category, icon, image, id }) => {
+  const history = useHistory();
 
-  
   return (
     <>
       <div className="col-md-2">
@@ -14,7 +13,13 @@ export const CategoryCard = ({ places, category, icon, image,id }) => {
           </div>
           <h3>{category}</h3>
           <p>{places} Places</p>
-          <Link className="link-btn" to={`business/${id}`} ></Link>{" "}
+          <Link
+            className="link-btn"
+            to={{
+              pathname: `business/${category}`,
+              state: { keyword: id },
+            }}
+          ></Link>{" "}
         </div>
       </div>
     </>

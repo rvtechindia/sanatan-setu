@@ -6,6 +6,28 @@ const sendEmail = require("../utils/sendEmail");
 const crypto = require("crypto");
 const cloudinary = require("cloudinary");
 
+//google auth user
+
+exports.googleAuth = catchAsyncErrors(async (req, res, next) => {
+  const { token } = req.body;
+  const ticket = await googleClient.verifyIdToken({
+    idToken: token,
+    audient: `${process.env.GOOGLE_CLIENT_ID}`,
+  });
+  const payload = ticket.getPayload();
+  let user = await User.findOne({ email: payload?.email });
+  if (!user) {
+    user = await new User({
+      email: payload?.email,
+      name: payload?.name,
+      IPadrress: req.ip,
+    });
+
+    await user.save();
+  }
+  sendToken(user, 201, res);
+});
+
 // Register a User
 exports.registerUser = catchAsyncErrors(async (req, res, next) => {
   const { name, email, password, role, avatar } = req.body;
@@ -85,7 +107,6 @@ exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
   if (!user) {
     return next(new ErrorHander("User not found", 404));
   }
-
   // Get ResetPassword Token
   const resetToken = user.getResetPasswordToken();
 
@@ -100,7 +121,7 @@ exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
   try {
     await sendEmail({
       email: user.email,
-      subject: `Ecommerce Password Recovery`,
+      subject: ` Password Recovery`,
       message,
     });
 

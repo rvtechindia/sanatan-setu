@@ -97,13 +97,13 @@ exports.updateSecondaryCategory = catchAsyncErrors(async (req, res, next) => {
 exports.getAllCategory = catchAsyncErrors(async (req, res, next) => {
   const categories = await Category.find();
 
-  let results;
-  let i;
-  while (i > categories.length) {
-    results = Company.find({ category: categories[i]._id });
-    i++;
-  }
+  const results = await Company.distinct("category")
 
+  
+
+  const r = await Category.find({_id:results[0]})
+  
+  console.log(r)
   sendResponse(res, 200, categories);
 });
 

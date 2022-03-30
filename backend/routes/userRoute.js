@@ -12,15 +12,15 @@ const {
   getSingleUser,
   updateUserRole,
   deleteUser,
+  googleAuth,
 } = require("../controllers/userController");
-const {
-  isAuthenticatedUser,
-  authorizeRoles,
-} = require("../middleware/auth");
+const { isAuthenticatedUser, authorizeRoles } = require("../middleware/auth");
 
-const { getUserIP } = require("../middleware/getIP")
+const { getUserIP } = require("../middleware/getIP");
 
 const router = express.Router();
+
+router.route("/google/auth").post(googleAuth);
 
 router.route("/register").post(registerUser);
 

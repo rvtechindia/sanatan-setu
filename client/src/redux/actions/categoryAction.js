@@ -23,7 +23,6 @@ export const getCategories = () => async (dispatch) => {
 
     const { data } = await axios.get(`${url}/get/all/category`, config);
 
-    console.log(data);
 
     dispatch({ type: CATEGORY_SUCCESS, payload: data.payload });
   } catch (error) {

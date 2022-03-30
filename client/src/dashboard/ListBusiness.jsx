@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Caption } from "../components/breadcrum/Caption";
 import Header from "../components/header/Header";
@@ -15,6 +15,7 @@ import { newCompany } from "../redux/actions/companyAction";
 import { Loader } from "../components/loader/Loader";
 
 ///imports
+import { validateBusinessDetails } from "../utils/Validator";
 
 const ListBusiness = ({ history }) => {
   const { category } = useSelector((state) => state.category);
@@ -24,8 +25,9 @@ const ListBusiness = ({ history }) => {
   const dispatch = useDispatch();
   const [logo, setLogo] = useState([]);
   const [coverImage, setCoverImage] = useState([]);
-
-  const [loading, setLoading] = useState(0);
+  const [error, setError] = useState({});
+  const errorRef = useRef(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     dispatch(getCategories());
@@ -41,7 +43,6 @@ const ListBusiness = ({ history }) => {
   }, [selectCategory]);
 
   const handleChange = (e) => {
-    console.log(e.target.files);
     const { value, name } = e.target;
     // setSelectCategory(e.target.value);
     // console.log(selectCategory);
@@ -49,18 +50,23 @@ const ListBusiness = ({ history }) => {
     switch (name) {
       case "title":
         setRegistrationData({ ...registrationData, businessName: value });
+        const error = validateBusinessDetails({...registrationData,businessName: value});
+        setError(error);
         break;
       case "website":
         setRegistrationData({ ...registrationData, website: value });
+        setError(validateBusinessDetails({...registrationData,website: value}));
         break;
       // case "title":
       //   setRegistrationData({ ...registrationData, founded: value });
       //   break;
       case "tagline":
         setRegistrationData({ ...registrationData, tagline: value });
+        setError(validateBusinessDetails({...registrationData,tagline: value}));
         break;
       case "description":
         setRegistrationData({ ...registrationData, description: value });
+        setError(validateBusinessDetails({...registrationData,description: value}));
         break;
       // case "title":
       //   setRegistrationData({ ...registrationData, companyType: value });
@@ -68,19 +74,21 @@ const ListBusiness = ({ history }) => {
       case "category":
         setRegistrationData({ ...registrationData, category: value });
         setSelectCategory(value);
+        setError(validateBusinessDetails({...registrationData,category: value}));
         break;
       // case "title":
       //   setRegistrationData({ ...registrationData, size: value });
       //   break;
     }
-
-    console.log(registrationData);
   };
 
   const handleSubmit = async () => {
+    const error = validateBusinessDetails(registrationData);
+    setError(error);
+    if (error) return;
     const data = setCompanyData(registrationData, logo, coverImage);
-    await dispatch(newCompany(data))
-    setLoading(0)
+    await dispatch(newCompany(data));
+    setLoading(false);
   };
 
   const [registrationData, setRegistrationData] = useState({
@@ -95,7 +103,7 @@ const ListBusiness = ({ history }) => {
   });
 
   const setCompanyData = (data, logo, coverImage) => {
-    setLoading(1);
+    setLoading(true);
     const formData = new FormData();
     formData.append("businessName", data.businessName);
     formData.append("website", data.website);
@@ -167,8 +175,15 @@ const ListBusiness = ({ history }) => {
                       placeholder="Title"
                       name="title"
                       onChange={handleChange}
+                      style={error.businessName && { border: "1px solid red" }}
                     />
+                    {error.businessName && (
+                      <label style={{ color: "red", fontSize: ".7rem" }}>
+                        {error.businessName}
+                      </label>
+                    )}
                   </div>
+
                   <div className="input-group">
                     <label>
                       Tagline <span className="red">*</span>
@@ -178,13 +193,23 @@ const ListBusiness = ({ history }) => {
                       placeholder="Tagline"
                       name="tagline"
                       onChange={handleChange}
+                      style={error.tagline && { border: "1px solid red" }}
                     />
+                     {error.tagline && (
+                      <label style={{ color: "red", fontSize: ".7rem" }}>
+                        {error.tagline}
+                      </label>
+                    )}
                   </div>
                   <div className="input-group">
                     <label>
                       Listing Category <span className="red">*</span>
                     </label>
-                    <select onChange={handleChange} name="category">
+                    <select
+                      onChange={handleChange}
+                      name="category"
+                      style={error.category && { border: "1px solid red" }}
+                    >
                       <option>Please select Category</option>
                       {category?.map((item) => {
                         return (
@@ -202,7 +227,13 @@ const ListBusiness = ({ history }) => {
                     <textarea
                       name="description"
                       onChange={handleChange}
+                      style={error.description && { border: "1px solid red" }}
                     ></textarea>
+                    {error.description && (
+                      <label style={{ color: "red", fontSize: ".7rem" }}>
+                        {error.description}
+                      </label>
+                    )}
                   </div>
                   <div className="input-group">
                     <label>Listing Amenity</label>
@@ -227,7 +258,13 @@ const ListBusiness = ({ history }) => {
                       name="website"
                       placeholder="e.g yourwebsite.com"
                       onChange={handleChange}
+                      style={error.website && { border: "1px solid red" }}
                     />
+                     {error.website && (
+                      <label style={{ color: "red", fontSize: ".7rem" }}>
+                        {error.website}
+                      </label>
+                    )}
                   </div>
                 </div>
               </div>

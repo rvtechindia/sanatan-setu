@@ -5,22 +5,29 @@ import { ListCard } from "../components/card/ListCard";
 import { Loader } from "../components/loader/Loader";
 import Carousel from "../components/carousel/Carousel";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router-dom";
 
 import { apiURL } from "../routes/api";
 import { Caption } from "../components/breadcrum/Caption";
 
-const ListingPage = () => {
+const ListingPage = ({ history }) => {
   const { company } = useSelector((state) => state.company);
   const { category } = useSelector((state) => state.category);
   const [searchData, setSearchData] = useState([]);
   const [keywords, setKeyword] = useState("");
   const [loading, setLoading] = useState(false);
-  const { keyword } = useParams();
+  var { keyword } = useParams();
 
   const [breadcum, setBreadcum] = useState("");
 
+  const location = useLocation();
+
+  
+
   useEffect(() => {
+    if (location.state) {
+      keyword = location.state.keyword;
+    }
     search(keyword);
     searchByCategory(keyword);
   }, []);
@@ -45,8 +52,8 @@ const ListingPage = () => {
     await axios
       .get(`${apiURL}/api/v1/employer/company/search?category=${id}`)
       .then((res) => {
-        setSearchData(res.data.searchData)
-        setBreadcum(res.data.searchData[0].category)
+        setSearchData(res.data.searchData);
+        setBreadcum(res.data.searchData[0].category);
       })
       .catch((e) => console.log(e));
     setTimeout(() => setLoading(false), 1000);
@@ -66,11 +73,30 @@ const ListingPage = () => {
                 {searchData.length > 0
                   ? `Showing 1 – ${searchData && searchData.length} of ${
                       searchData && searchData.length
-                    } results for '${breadcum}'`
-                  : "No Result Found"}
+                    } results for '${keyword}'`
+                  : `No Result Found for '${keyword}'`}
               </h5>
             </div>
-
+            {!searchData.length > 0 && (
+              <div className="col-md-12">
+                <div
+                  className="input-group"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <input
+                    type="submit"
+                    value="Explore Directories"
+                    onClick={(e) => {
+                      history.push("/listingPage");
+                    }}
+                  />
+                </div>
+              </div>
+            )}
             <article>
               <div className="container">
                 <div className="row featured">

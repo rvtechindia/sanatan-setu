@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export const Footer = () => {
   return (
@@ -12,7 +13,7 @@ export const Footer = () => {
                   <div className="col-md-2 text-center">
                     {" "}
                     <img
-                      src="assets/images/idea.png"
+                      src="/assets/images/idea.png"
                       className="img-fluid img"
                     />{" "}
                   </div>
@@ -26,9 +27,9 @@ export const Footer = () => {
                   </div>
                   <div className="col-md-3">
                     {" "}
-                    <a href="submit-listing.php" className="btn">
+                    <Link to="/listbusiness" className="btn">
                       Add my business
-                    </a>{" "}
+                    </Link>{" "}
                   </div>
                 </div>
               </div>
@@ -36,7 +37,7 @@ export const Footer = () => {
             <div className="col-md-3">
               <h3>Sanatan Setu Experience</h3>
               <p>
-                <img src="assets/images/app.jpg" className="img-fluid" />
+                <img src="/assets/images/app.jpg" className="img-fluid" />
               </p>
               <div className="bordertop mt-4 mb-4"></div>
               <h3>Follow Us</h3>

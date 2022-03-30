@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { notifyError, notifySuccess } from "../utils/toast";
 import Header from "../components/header/Header";
 import { Caption } from "../components/breadcrum/Caption";
@@ -20,6 +20,11 @@ export const Dashboard = ({ history }) => {
   const { fav } = useSelector((state) => state.wishlist);
   const dispatch = useDispatch();
 
+  const [ProfileData, setProfileData] = useState({
+    name: "",
+    emai: "",
+  });
+
   useEffect(() => {
     if (!isAuthenticated) {
       history.push("/");
@@ -32,18 +37,28 @@ export const Dashboard = ({ history }) => {
   }, []);
 
   const handleProfileUpdate = () => {
-
-
     const formData = new FormData();
-    formData.append()
-    formData.append()
-    dispatch(updateProfile());
+    formData.append("name", ProfileData.name);
+    formData.append("email", ProfileData.email);
+    dispatch(updateProfile(formData));
   };
 
   const signOutUser = () => {
     notifySuccess("Logout Successfully");
     dispatch(logout());
   };
+
+  const ProfileChange = (e) => {
+    const { name, value } = e.target.value;
+    switch (name) {
+      case "p-name":
+        setProfileData({ ...ProfileData, name: value });
+        break;
+      case "p-email":
+        setProfileData({ ...ProfileData, email: value });
+    }
+  };
+
   return (
     <>
       <Caption title="Dashboard">
@@ -251,13 +266,21 @@ export const Dashboard = ({ history }) => {
                               <div className="col-md-6">
                                 <div className="input-group">
                                   <label>Name </label>
-                                  <input type="text" />
+                                  <input
+                                    type="text"
+                                    name="p-name"
+                                    onChange={ProfileChange}
+                                  />
                                 </div>
                               </div>
                               <div className="col-md-6">
                                 <div className="input-group">
                                   <label>Email</label>
-                                  <input type="text" />
+                                  <input
+                                    type="email"
+                                    name="p-email"
+                                    onChange={ProfileChange}
+                                  />
                                 </div>
                               </div>
                               {/* <div className="col-md-6">
@@ -273,7 +296,7 @@ export const Dashboard = ({ history }) => {
                                     type="submit"
                                     onClick={(e) => {
                                       e.preventDefault();
-                                      handleProfileUpdate()
+                                      handleProfileUpdate();
                                     }}
                                     value="Update Profile"
                                   />
