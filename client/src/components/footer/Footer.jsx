@@ -1,7 +1,9 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 export const Footer = () => {
+  const { category } = useSelector((state) => state.category);
   return (
     <>
       <footer>
@@ -50,17 +52,7 @@ export const Footer = () => {
                   </li>
                   <li>
                     <a href="#">
-                      <i className="fab fa-twitter"></i>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i className="fab fa-pinterest-p"></i>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i className="fab fa-linkedin-in"></i>
+                      <i className="fab fa-google"></i>
                     </a>
                   </li>
                 </ul>
@@ -79,24 +71,21 @@ export const Footer = () => {
               <h3>Categories</h3>
               <div className="nav">
                 <ul>
-                  <li>
-                    <a href="#">Restaurant</a>
-                  </li>
-                  <li>
-                    <a href="#">Jhatka Meat Shops</a>
-                  </li>
-                  <li>
-                    <a href="#">Tailors</a>
-                  </li>
-                  <li>
-                    <a href="#">Barbers</a>
-                  </li>
-                  <li>
-                    <a href="#">Shopping Malls</a>
-                  </li>
-                  <li>
-                    <a href="#">Salon & Spas</a>
-                  </li>
+                  {category?.map((item, i) => {
+                    if (i > 4) return;
+                    return (
+                      <li>
+                        <Link
+                          to={{
+                            pathname: `business/${item.businessCategory}`,
+                            state: { keyword: item._id },
+                          }}
+                        >
+                          {item.businessCategory}
+                        </Link>
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             </div>

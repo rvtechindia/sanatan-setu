@@ -22,9 +22,8 @@ const AuthContainer = ({ children, title, tagline }) => {
                     </div>
                   </div>
                   <p>
-                    Sed ut perspiciatis unde omnis iste natus error sit
-                    voluptatem accusantium doloremque laudantium, totam rem
-                    aperiam
+                    To list your business or view details of other businesses on
+                    Sanatan Setu, Register or Login below.
                   </p>
                 </div>
                 {children}

@@ -16,7 +16,7 @@ export const ListCard = ({
       <div className="listing-gird">
         <div className="image">
           {" "}
-          <Link to={`/listDetails/${id}`}>
+          <Link to={{ pathname: `/listDetails/${name}`, state: { id } }}>
             <img src={image} className="img-fluid" />
           </Link>{" "}
         </div>
@@ -28,7 +28,9 @@ export const ListCard = ({
           </span>{" "}
         </div>
         <h2>
-          <Link to={`/listDetails/${id}`}>{name}</Link>
+          <Link to={{ pathname: `/listDetails/${name}`, state: { id } }}>
+            {name}
+          </Link>
         </h2>
         <div className="meta-info">
           {" "}

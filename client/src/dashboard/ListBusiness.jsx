@@ -34,13 +34,18 @@ const ListBusiness = ({ history }) => {
 
     if (!isAuthenticated) {
       notifyError("login first");
-      history.push("/login");
+      history.push("/login?redirect=listbusiness");
     }
   }, [isAuthenticated]);
 
   useEffect(() => {
     dispatch(getAmenityByCategory(selectCategory));
   }, [selectCategory]);
+
+
+  useEffect(()=>{
+    window.scroll(0,0)
+  },[])
 
   const handleChange = (e) => {
     const { value, name } = e.target;

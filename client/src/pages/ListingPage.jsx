@@ -6,6 +6,8 @@ import { Loader } from "../components/loader/Loader";
 import Carousel from "../components/carousel/Carousel";
 import axios from "axios";
 import { apiURL } from "../routes/api";
+import { notifyError } from "../utils/toast";
+
 
 const ListingPage = ({ history }) => {
   const { company } = useSelector((state) => state.company);
@@ -54,6 +56,7 @@ const ListingPage = ({ history }) => {
       .get(link)
       .then((res) => {
         setSearchData(res.data.searchData);
+        if(res.data.searchData.length === 0) notifyError("No Search Result found !")
         executeScroll();
       })
       .catch((e) => console.log(e));
@@ -154,7 +157,7 @@ const ListingPage = ({ history }) => {
                         <i className="fas fa-layer-group"></i>
                       </div>
                       <div className=" mt-3">
-                        <h3>69,856</h3>
+                        <h3>{company?.length}</h3>
                         <p>Total Listings</p>
                       </div>
                     </div>
@@ -166,7 +169,7 @@ const ListingPage = ({ history }) => {
                         <i className="far fa-star"></i>{" "}
                       </div>
                       <div className=" mt-3">
-                        <h3>6854</h3>
+                        <h3>{company?.length}</h3>
                         <p>Featured Listings</p>
                       </div>
                     </div>
@@ -177,7 +180,7 @@ const ListingPage = ({ history }) => {
                         <i className="far fa-heart"></i>
                       </div>
                       <div className=" mt-3">
-                        <h3>6354</h3>
+                        <h3>{company?.length}</h3>
                         <p>Top Listings</p>
                       </div>
                     </div>
@@ -188,7 +191,7 @@ const ListingPage = ({ history }) => {
                         <i className="far fa-map"></i>
                       </div>
                       <div className=" mt-3">
-                        <h3>8754</h3>
+                        <h3>{company?.length}</h3>
                         <p>Locations</p>
                       </div>
                     </div>

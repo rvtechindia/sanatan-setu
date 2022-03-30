@@ -15,6 +15,9 @@ import {
   FAVOURITE_REQUEST,
   FAVOURITE_SUCCESS,
   FAVOURITE_FAIL,
+  REVIEW_REQUEST,
+  REVIEW_SUCCESS,
+  REVIEW_FAIL,
 } from "../constants/companyConstants";
 import axios from "axios";
 
@@ -129,3 +132,22 @@ export const getMyCompanies = () => async (dispatch) => {
 };
 
 //
+export const newreview = (reviewData) => async (dispatch) => {
+  try {
+    dispatch({ type: REVIEW_REQUEST });
+
+    const config = {
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    };
+
+    const { data } = await axios.post(`${url}/new/review`, reviewData, config);
+
+    notifySuccess("Added Successfully");
+
+    dispatch({ type: REVIEW_SUCCESS, payload: data.payload });
+  } catch (error) {
+    dispatch({ type: REVIEW_FAIL, payload: error.response.data.message });
+    notifyError(error.response.data.message);
+  }
+};

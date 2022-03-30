@@ -25,6 +25,10 @@ export const Dashboard = ({ history }) => {
     emai: "",
   });
 
+  useEffect(()=>{
+    window.scroll(0,0)
+  },[])
+
   useEffect(() => {
     if (!isAuthenticated) {
       history.push("/");

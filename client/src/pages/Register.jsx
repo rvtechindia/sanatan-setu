@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { register, logout, clearErrors } from "../redux/actions/userAction";
 import { notifyError, notifySuccess } from "../utils/toast";
+import GoogleAuth from "../utils/GoogleAuth";
 
 const Register = ({ history }) => {
   const dispatch = useDispatch();
@@ -25,6 +26,9 @@ const Register = ({ history }) => {
     if (error === "Please Login to access this resource") {
       return;
     } else {
+      if (error === "Duplicate email Entered") {
+        return notifyError("An account with this email already exists. ");
+      }
       notifyError(error);
       dispatch(clearErrors());
     }
@@ -158,28 +162,7 @@ const Register = ({ history }) => {
             </div>
             <div className="social-login">
               <p>Connect with Social Networks</p>
-              <ul>
-                <li>
-                  <a href="#">
-                    <i className="fab fa-facebook-f"></i>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i className="fab fa-twitter"></i>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i className="fab fa-pinterest-p"></i>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i className="fab fa-linkedin-in"></i>
-                  </a>
-                </li>
-              </ul>
+              <GoogleAuth />
             </div>
           </div>
         </div>

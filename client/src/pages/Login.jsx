@@ -8,11 +8,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { notifyError, notifySuccess } from "../utils/toast";
 import GoogleAuth from "../utils/GoogleAuth";
 
-const Login = ({ history }) => {
+import { validateLoginDetails } from "../utils/Validator";
+
+const Login = ({ history,location }) => {
   const dispatch = useDispatch();
   const { user, loading, isAuthenticated, error } = useSelector(
     (state) => state.user
   );
+
+  const redirect = location.search ? location.search.split('=')[1] : "/dashboard"
 
   const [loginDetails, setLoginDetails] = useState({
     email: "",
@@ -20,7 +24,7 @@ const Login = ({ history }) => {
   });
   useEffect(() => {
     if (isAuthenticated) {
-      history.push("/dashboard");
+      history.push(redirect);
       notifySuccess("Login Successfully");
     }
 
@@ -31,6 +35,10 @@ const Login = ({ history }) => {
       dispatch(clearErrors());
     }
   }, [isAuthenticated, error]);
+
+  useEffect(()=>{
+    window.scroll(0,0)
+  },[])
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -48,6 +56,7 @@ const Login = ({ history }) => {
   };
 
   const handleLogin = () => {
+    const error = validateLoginDetails(loginDetails);
     dispatch(login(loginDetails.email, loginDetails.password));
   };
 
@@ -111,7 +120,7 @@ const Login = ({ history }) => {
             </div>
             <div className="social-login">
               <p>Connect with Social Networks</p>
-             <GoogleAuth/>
+              <GoogleAuth />
             </div>
           </div>
         </div>

@@ -16,13 +16,13 @@ import { getcompanyDetails } from "../redux/actions/companyAction";
 
 export const ListingDetail = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
 
-  const { id } = useParams();
+  const { id } = location.state;
 
   const { company, loading } = useSelector((state) => state.companyDetail);
   const { user, isAuthenticated } = useSelector((state) => state.user);
 
-  const location = useLocation();
   useEffect(() => {
     window.scrollTo(0, 0);
     dispatch(getcompanyDetails(id));
@@ -56,7 +56,7 @@ export const ListingDetail = () => {
 
   return (
     <>
-      <Caption title="Dashboard">
+      <Caption title={company?.businessName}>
         <Header />
       </Caption>
       {!loading ? (

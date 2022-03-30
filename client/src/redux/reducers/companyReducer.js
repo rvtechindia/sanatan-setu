@@ -15,6 +15,9 @@ import {
   FAVOURITE_REQUEST,
   FAVOURITE_SUCCESS,
   FAVOURITE_FAIL,
+  REVIEW_REQUEST,
+  REVIEW_SUCCESS,
+  REVIEW_FAIL,
 } from "../constants/companyConstants";
 
 export const companyReducer = (state = { company: [] }, action) => {
@@ -154,6 +157,36 @@ export const favReducer = (state = { fav: [] }, action) => {
         ...state,
         loading: false,
         fav: null,
+        error: action.payload,
+      };
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const newReviewReducer = (state = { review: {} }, action) => {
+  switch (action.type) {
+    case REVIEW_REQUEST:
+      return {
+        loading: true,
+      };
+    case REVIEW_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        review: action.payload,
+      };
+    case REVIEW_FAIL:
+      return {
+        ...state,
+        loading: false,
+        review: null,
         error: action.payload,
       };
     case CLEAR_ERRORS:
