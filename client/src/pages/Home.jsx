@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 
 export const Home = () => {
   const { company } = useSelector((state) => state.company);
-  const { category } = useSelector((state) => state.category);
+  const { activeCategory } = useSelector((state) => state.category);
 
   useEffect(() =>{
     window.scroll(0,0)
@@ -31,8 +31,8 @@ export const Home = () => {
                 <br />
               </p>
             </div>
-            {category &&
-              category.map((item, id) => {
+            {activeCategory &&
+              activeCategory.map((item, id) => {
                 return (
                   <CategoryCard
                     key={id}

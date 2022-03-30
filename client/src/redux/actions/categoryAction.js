@@ -9,7 +9,7 @@ import {
 } from "../constants/categoryConstants";
 import axios from "axios";
 
-const url = "http://52.66.174.13:3001/api/v1";
+const url = "http://localhost:3001/api/v1";
 
 // category
 export const getCategories = () => async (dispatch) => {
@@ -24,7 +24,7 @@ export const getCategories = () => async (dispatch) => {
     const { data } = await axios.get(`${url}/get/all/category`, config);
 
 
-    dispatch({ type: CATEGORY_SUCCESS, payload: data.payload });
+    dispatch({ type: CATEGORY_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: CATEGORY_FAIL, payload: error.response.data.message });
   }

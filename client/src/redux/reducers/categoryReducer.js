@@ -8,7 +8,10 @@ import {
   AMENITY_FAIL,
 } from "../constants/categoryConstants";
 
-export const categoryReducer = (state = { category: [] }, action) => {
+export const categoryReducer = (
+  state = { category: [], activeCategory: [] },
+  action
+) => {
   switch (action.type) {
     case CATEGORY_REQUEST:
       return {
@@ -18,7 +21,8 @@ export const categoryReducer = (state = { category: [] }, action) => {
       return {
         ...state,
         loading: false,
-        category: action.payload,
+        category: action.payload.payload,
+        activeCategory: action.payload.activeCategory,
       };
     case CATEGORY_FAIL:
       return {

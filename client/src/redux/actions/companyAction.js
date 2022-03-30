@@ -140,7 +140,7 @@ export const newreview = (reviewData) => async (dispatch) => {
       withCredentials: true,
     };
 
-    const { data } = await axios.post(`${url}/new/review`, reviewData, config);
+    const { data } = await axios.put(`${url}/new/review`, reviewData, config);
 
     notifySuccess("Added Successfully");
 

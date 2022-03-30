@@ -12,7 +12,7 @@ import axios from "axios";
 
 /// actions import
 
-import { getcompanyDetails } from "../redux/actions/companyAction";
+import { getcompanyDetails, newreview } from "../redux/actions/companyAction";
 import StarRating from "../components/rating/StarRating";
 
 export const ListingDetail = () => {
@@ -22,6 +22,7 @@ export const ListingDetail = () => {
   const [priceRating, setPriceRating] = useState(0);
   const [qualityRating, setQualityRating] = useState(0);
   const [locationRating, setLocationRating] = useState(0);
+  const [comment, setComment] = useState("");
   const serviceRatingcallback = useCallback((count) => {
     setServiceRating(count);
   }, []);
@@ -56,7 +57,7 @@ export const ListingDetail = () => {
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     };
-   await axios
+    await axios
       .post(
         `${apiURL}/api/v1/employer/add/fav?id=${id}`,
         {
@@ -68,6 +69,21 @@ export const ListingDetail = () => {
         notifySuccess(res.data.message);
       })
       .catch((e) => notifyError(e.response.data.message));
+  };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setComment(value);
+  };
+  const submitReview = () => {
+    const data = {
+      qualityReview: qualityRating,
+      serviceReview: serviceRating,
+      priceReview: priceRating,
+      locationReview: locationRating,
+      comment: comment,
+    };
+    dispatch(newreview(data));
   };
 
   return (
@@ -295,28 +311,36 @@ export const ListingDetail = () => {
                             <li>
                               Service?
                               <br />
-                              <StarRating parentCallback={serviceRatingcallback} />
+                              <StarRating
+                                parentCallback={serviceRatingcallback}
+                              />
                             </li>
                             <li>
                               Price?
                               <br />
-                              <StarRating parentCallback={priceRatingcallback} />
+                              <StarRating
+                                parentCallback={priceRatingcallback}
+                              />
                             </li>
                             <li>
                               Quality?
                               <br />
-                              <StarRating parentCallback={qualityRatingcallback} />
+                              <StarRating
+                                parentCallback={qualityRatingcallback}
+                              />
                             </li>
                             <li>
                               Location?
                               <br />
-                              <StarRating parentCallback={locationRatingcallback} />
+                              <StarRating
+                                parentCallback={locationRatingcallback}
+                              />
                             </li>
                           </ul>
                         </div>
                         <div className="clearfix mb-4"></div>
                         <div className="row">
-                          <div className="col-md-6">
+                          {/* <div className="col-md-6">
                             <div className="input-group">
                               <label>
                                 Name <span className="red">*</span>
@@ -331,15 +355,26 @@ export const ListingDetail = () => {
                               </label>
                               <input type="text" placeholder="Your Email" />
                             </div>
-                          </div>
+                          </div> */}
                           <div className="col-md-12">
                             <div className="input-group">
                               <label>Review</label>
-                              <textarea placeholder="Review"></textarea>
+                              <textarea
+                                placeholder="Review"
+                                name="comment"
+                                onChange={handleChange}
+                              ></textarea>
                             </div>
                           </div>
                           <div className="col-md-12 input-group">
-                            <input type="submit" value="Submit Review" />
+                            <input
+                              type="submit"
+                              value="Submit Review"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                submitReview();
+                              }}
+                            />
                           </div>
                         </div>
                       </div>
