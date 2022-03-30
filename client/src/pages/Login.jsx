@@ -68,7 +68,7 @@ const Login = ({ history, location }) => {
   const handleLogin = () => {
     const e = validateLoginDetails(loginDetails);
     setValidationError(e);
-    if (e) return;
+    if (Object.keys(e).length) return;
     dispatch(login(loginDetails.email, loginDetails.password));
   };
 

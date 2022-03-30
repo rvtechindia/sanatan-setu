@@ -95,7 +95,7 @@ const Register = ({ history }) => {
   const handleRegistration = () => {
     const e = validateRegisterDetails(registrationData);
     setValidationError(e);
-    if (e) return;
+    if (Object.keys(e).length) return;
     const formData = new FormData();
     formData.append("name", registrationData.name);
     formData.append("email", registrationData.email);

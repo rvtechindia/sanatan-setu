@@ -108,7 +108,7 @@ exports.getAllCategory = catchAsyncErrors(async (req, res, next) => {
   }
 
   console.log(liveCategory);
-  sendResponse(res, 200, liveCategory);
+  sendResponse(res, 200, categories);
 });
 
 exports.newAmenites = catchAsyncErrors(async (req, res, next) => {

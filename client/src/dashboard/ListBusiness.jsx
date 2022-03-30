@@ -90,7 +90,7 @@ const ListBusiness = ({ history }) => {
   const handleSubmit = async () => {
     const error = validateBusinessDetails(registrationData);
     setError(error);
-    if (error) return;
+    if (Object.keys(error).length) return;
     const data = setCompanyData(registrationData, logo, coverImage);
     await dispatch(newCompany(data));
     setLoading(false);
