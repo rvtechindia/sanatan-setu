@@ -54,7 +54,6 @@ export const getcompanyDetails = (id) => async (dispatch) => {
 
     const { data } = await axios.get(`${url}/get/company?id=${id}`, config);
 
-    console.log(data);
 
     dispatch({ type: COMPANY_DETAIL_SUCCESS, payload: data.payload });
   } catch (error) {

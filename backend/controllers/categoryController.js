@@ -107,8 +107,12 @@ exports.getAllCategory = catchAsyncErrors(async (req, res, next) => {
     liveCategory = [...liveCategory, newCategory];
   }
 
-  console.log(liveCategory);
-  sendResponse(res, 200, categories);
+  res.status(200).json({
+    success: true,
+    payload: categories,
+    activeCategory: liveCategory,
+  });
+  // sendResponse(res, 200, categories);
 });
 
 exports.newAmenites = catchAsyncErrors(async (req, res, next) => {

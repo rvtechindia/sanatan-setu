@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { Caption } from "../components/breadcrum/Caption";
@@ -13,11 +13,27 @@ import axios from "axios";
 /// actions import
 
 import { getcompanyDetails } from "../redux/actions/companyAction";
+import StarRating from "../components/rating/StarRating";
 
 export const ListingDetail = () => {
   const dispatch = useDispatch();
   const location = useLocation();
-
+  const [serviceRating, setServiceRating] = useState(0);
+  const [priceRating, setPriceRating] = useState(0);
+  const [qualityRating, setQualityRating] = useState(0);
+  const [locationRating, setLocationRating] = useState(0);
+  const serviceRatingcallback = useCallback((count) => {
+    setServiceRating(count);
+  }, []);
+  const priceRatingcallback = useCallback((count) => {
+    setPriceRating(count);
+  }, []);
+  const qualityRatingcallback = useCallback((count) => {
+    setQualityRating(count);
+  }, []);
+  const locationRatingcallback = useCallback((count) => {
+    setLocationRating(count);
+  }, []);
   const { id } = location.state;
 
   const { company, loading } = useSelector((state) => state.companyDetail);
@@ -40,7 +56,7 @@ export const ListingDetail = () => {
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     };
-    axios
+   await axios
       .post(
         `${apiURL}/api/v1/employer/add/fav?id=${id}`,
         {
@@ -51,7 +67,7 @@ export const ListingDetail = () => {
       .then((res) => {
         notifySuccess(res.data.message);
       })
-      .catch((e) => notifyError(e));
+      .catch((e) => notifyError(e.response.data.message));
   };
 
   return (
@@ -279,38 +295,22 @@ export const ListingDetail = () => {
                             <li>
                               Service?
                               <br />
-                              <i className="fas fa-star"></i>{" "}
-                              <i className="fas fa-star"></i>{" "}
-                              <i className="fas fa-star"></i>{" "}
-                              <i className="fas fa-star"></i>{" "}
-                              <i className="fas fa-star"></i>{" "}
+                              <StarRating parentCallback={serviceRatingcallback} />
                             </li>
                             <li>
                               Price?
                               <br />
-                              <i className="fas fa-star"></i>{" "}
-                              <i className="fas fa-star"></i>{" "}
-                              <i className="fas fa-star"></i>{" "}
-                              <i className="fas fa-star"></i>{" "}
-                              <i className="fas fa-star"></i>{" "}
+                              <StarRating parentCallback={priceRatingcallback} />
                             </li>
                             <li>
                               Quality?
                               <br />
-                              <i className="fas fa-star"></i>{" "}
-                              <i className="fas fa-star"></i>{" "}
-                              <i className="fas fa-star"></i>{" "}
-                              <i className="fas fa-star"></i>{" "}
-                              <i className="fas fa-star"></i>{" "}
+                              <StarRating parentCallback={qualityRatingcallback} />
                             </li>
                             <li>
                               Location?
                               <br />
-                              <i className="fas fa-star"></i>{" "}
-                              <i className="fas fa-star"></i>{" "}
-                              <i className="fas fa-star"></i>{" "}
-                              <i className="fas fa-star"></i>{" "}
-                              <i className="fas fa-star"></i>{" "}
+                              <StarRating parentCallback={locationRatingcallback} />
                             </li>
                           </ul>
                         </div>
