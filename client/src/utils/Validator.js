@@ -8,8 +8,8 @@ export const validateLoginDetails = (values) => {
   }
   if (!values.password) {
     errors.password = "Cannot be blank";
-  } else if (values.password.length < 4) {
-    errors.password = "Password must be more than 4 characters";
+  } else if (values.password.length < 8) {
+    errors.password = "Password must be more than 8 characters";
   }
   if (!values.businessName) {
   }
@@ -39,6 +39,37 @@ export const validateBusinessDetails = (values) => {
   }
   if (!values.category) {
     errors.category = "Cannot be blank";
+  }
+  return errors;
+};
+
+
+export const validateRegisterDetails = (values) => {
+  let errors = {};
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+  const regexPhone = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+  if (!values.email) {
+    errors.email = "Cannot be blank";
+  } else if (!regex.test(values.email)) {
+    errors.email = "Invalid email format";
+  }
+  if (!values.password) {
+    errors.password = "Cannot be blank";
+  } else if (values.password.length < 8) {
+    errors.password = "Password must be more than 8 characters";
+  }
+  if (!values.confirmPassword) {
+    errors.confirmPassword = "Cannot be blank";
+  }else if(values.confirmPassword != values.password){
+    errors.confirmPassword = "Password do not match";
+  }
+  if(!values.name){
+    errors.name = "Cannot be blank";
+  }
+  if(!values.phone){
+    errors.phone = "Cannot be blank";
+  }else if(!regexPhone.test(values.phone)){
+    errors.phone = "Invalid Mobile Number !";
   }
   return errors;
 };

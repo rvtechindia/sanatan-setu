@@ -74,7 +74,7 @@ export const Footer = () => {
                   {category?.map((item, i) => {
                     if (i > 4) return;
                     return (
-                      <li>
+                      <li key={i} >
                         <Link
                           to={{
                             pathname: `business/${item.businessCategory}`,

@@ -97,14 +97,18 @@ exports.updateSecondaryCategory = catchAsyncErrors(async (req, res, next) => {
 exports.getAllCategory = catchAsyncErrors(async (req, res, next) => {
   const categories = await Category.find();
 
-  const results = await Company.distinct("category")
+  const results = await Company.distinct("category");
 
-  
+  let liveCategory = [];
 
-  const r = await Category.find({_id:results[0]})
-  
-  console.log(r)
-  sendResponse(res, 200, categories);
+  for (let i = 0; i < results.length; i++) {
+    const newCategory = await Category.findById(results[i]);
+
+    liveCategory = [...liveCategory, newCategory];
+  }
+
+  console.log(liveCategory);
+  sendResponse(res, 200, liveCategory);
 });
 
 exports.newAmenites = catchAsyncErrors(async (req, res, next) => {

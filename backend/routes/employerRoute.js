@@ -14,6 +14,7 @@ const {
   getFav,
   companyByUser,
   addGallary,
+  newReview
 } = require("../controllers/employerController");
 const { isAuthenticatedUser, authorizeRoles } = require("../middleware/auth");
 
@@ -111,5 +112,8 @@ router.route("/company/filter").get(filterCompanyByLocation);
 router
   .route("/new/gallary")
   .post(isAuthenticatedUser, authorizeRoles("employer"), addGallary);
+
+//review
+router.route("/new/review").put(isAuthenticatedUser, newReview);
 
 module.exports = router;

@@ -10,13 +10,17 @@ import GoogleAuth from "../utils/GoogleAuth";
 
 import { validateLoginDetails } from "../utils/Validator";
 
-const Login = ({ history,location }) => {
+const Login = ({ history, location }) => {
   const dispatch = useDispatch();
   const { user, loading, isAuthenticated, error } = useSelector(
     (state) => state.user
   );
 
-  const redirect = location.search ? location.search.split('=')[1] : "/dashboard"
+  const [validationError, setValidationError] = useState({});
+
+  const redirect = location.search
+    ? location.search.split("=")[1]
+    : "/dashboard";
 
   const [loginDetails, setLoginDetails] = useState({
     email: "",
@@ -36,9 +40,9 @@ const Login = ({ history,location }) => {
     }
   }, [isAuthenticated, error]);
 
-  useEffect(()=>{
-    window.scroll(0,0)
-  },[])
+  useEffect(() => {
+    window.scroll(0, 0);
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -46,9 +50,15 @@ const Login = ({ history,location }) => {
     switch (name) {
       case "email":
         setLoginDetails({ ...loginDetails, email: value });
+        setValidationError(
+          validateLoginDetails({ ...loginDetails, email: value })
+        );
         break;
       case "password":
         setLoginDetails({ ...loginDetails, password: value });
+        setValidationError(
+          validateLoginDetails({ ...loginDetails, password: value })
+        );
         break;
       case "default":
         break;
@@ -56,7 +66,9 @@ const Login = ({ history,location }) => {
   };
 
   const handleLogin = () => {
-    const error = validateLoginDetails(loginDetails);
+    const e = validateLoginDetails(loginDetails);
+    setValidationError(e);
+    if (e) return;
     dispatch(login(loginDetails.email, loginDetails.password));
   };
 
@@ -75,15 +87,30 @@ const Login = ({ history,location }) => {
                 placeholder="Email"
                 name="email"
                 onChange={handleChange}
+                style={validationError.email && { border: "1px solid red" }}
               />
+              {validationError.email && (
+                <label style={{ color: "red", fontSize: ".7rem" }}>
+                  {validationError.email}
+                </label>
+              )}
             </div>
             <div className="input-group">
               <input
                 type="password"
                 name="password"
+                className="text"
+                style={{width: '100%',border: '1px solid grey',padding: '.3rem',paddingLeft:"1rem"}}
+
                 placeholder="Password"
                 onChange={handleChange}
               />
+
+              {validationError.password && (
+                <label style={{ color: "red", fontSize: ".7rem" }}>
+                  {validationError.password}
+                </label>
+              )}
             </div>
             <div className="input-group">
               <div className="form-check col-md-6">
@@ -93,7 +120,7 @@ const Login = ({ history,location }) => {
                   value=""
                   id="defaultCheck1"
                 />
-                <label className="form-check-label" for="defaultCheck1">
+                <label className="form-check-label" htmlFor="defaultCheck1">
                   {" "}
                   Remember me
                 </label>

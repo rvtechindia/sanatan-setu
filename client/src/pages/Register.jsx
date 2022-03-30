@@ -8,14 +8,18 @@ import { register, logout, clearErrors } from "../redux/actions/userAction";
 import { notifyError, notifySuccess } from "../utils/toast";
 import GoogleAuth from "../utils/GoogleAuth";
 
+import { validateRegisterDetails } from "../utils/Validator";
+
 const Register = ({ history }) => {
   const dispatch = useDispatch();
-
+  const [validationError, setValidationError] = useState({});
   const { user, loading, isAuthenticated, error } = useSelector(
     (state) => state.user
   );
 
-  console.log(user, loading, isAuthenticated);
+  useEffect(() => {
+    window.scroll(0, 0);
+  }, []);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -52,18 +56,33 @@ const Register = ({ history }) => {
     switch (name) {
       case "username":
         setRegistrationData({ ...registrationData, name: value });
+        setValidationError(
+          validateRegisterDetails({ ...registrationData, name: value })
+        );
         break;
       case "email":
         setRegistrationData({ ...registrationData, email: value });
+        setValidationError(
+          validateRegisterDetails({ ...registrationData, email: value })
+        );
         break;
       case "phone":
         setRegistrationData({ ...registrationData, phone: value });
+        setValidationError(
+          validateRegisterDetails({ ...registrationData, phone: value })
+        );
         break;
       case "password":
         setRegistrationData({ ...registrationData, password: value });
+        setValidationError(
+          validateRegisterDetails({ ...registrationData, password: value })
+        );
         break;
       case "confirm-password":
         setRegistrationData({ ...registrationData, confirmPassword: value });
+        setValidationError(
+          validateRegisterDetails({ ...registrationData, confirmPassword: value })
+        );
         break;
       case "user-type":
         setRegistrationData({ ...registrationData, role: value });
@@ -71,10 +90,12 @@ const Register = ({ history }) => {
       case "default":
         break;
     }
-    console.log(registrationData);
   };
 
   const handleRegistration = () => {
+    const e = validateRegisterDetails(registrationData);
+    setValidationError(e);
+    if (e) return;
     const formData = new FormData();
     formData.append("name", registrationData.name);
     formData.append("email", registrationData.email);
@@ -82,7 +103,6 @@ const Register = ({ history }) => {
     formData.append("avatar", registrationData.avatar);
     if (registrationData.role === "employer")
       formData.append("role", registrationData.role);
-    console.log(registrationData);
     dispatch(register(formData));
   };
 
@@ -102,6 +122,11 @@ const Register = ({ history }) => {
                 name="username"
                 onChange={handleChange}
               />
+               {validationError.name && (
+                <label style={{ color: "red", fontSize: ".7rem" }}>
+                  {validationError.name}
+                </label>
+              )}
             </div>
             <div className="input-group">
               <input
@@ -110,6 +135,11 @@ const Register = ({ history }) => {
                 name="email"
                 onChange={handleChange}
               />
+              {validationError.email && (
+                <label style={{ color: "red", fontSize: ".7rem" }}>
+                  {validationError.email}
+                </label>
+              )}
             </div>
             <div className="input-group">
               <div className="col-md-9">
@@ -119,6 +149,11 @@ const Register = ({ history }) => {
                   name="phone"
                   onChange={handleChange}
                 />
+                 {validationError.phone && (
+                <label style={{ color: "red", fontSize: ".7rem" }}>
+                  {validationError.phone}
+                </label>
+              )}
               </div>
               <div className="col-md-3 text-end">
                 <a onClick={() => console.log("clicked")} className="verify">
@@ -132,18 +167,40 @@ const Register = ({ history }) => {
             <div className="input-group">
               <input
                 type="password"
-                placeholder="Password"
                 name="password"
+                style={{
+                  width: "100%",
+                  border: "1px solid grey",
+                  padding: ".3rem",
+                  paddingLeft: "1rem",
+                }}
+                placeholder="Password"
                 onChange={handleChange}
               />
+               {validationError.password && (
+                <label style={{ color: "red", fontSize: ".7rem" }}>
+                  {validationError.password}
+                </label>
+              )}
             </div>
             <div className="input-group">
               <input
                 type="password"
                 placeholder="Repeat Password"
                 name="confirm-password"
+                style={{
+                  width: "100%",
+                  border: "1px solid grey",
+                  padding: ".3rem",
+                  paddingLeft: "1rem",
+                }}
                 onChange={handleChange}
               />
+              {validationError.confirmPassword && (
+                <label style={{ color: "red", fontSize: ".7rem" }}>
+                  {validationError.confirmPassword}
+                </label>
+              )}
             </div>
             <div className="border-1"></div>
             <div className="input-group text-center">

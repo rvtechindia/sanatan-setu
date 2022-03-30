@@ -10,6 +10,7 @@ const Address = require("../models/addressModel");
 const Document = require("../models/documentModel");
 const Favorite = require("../models/favouriteModel");
 const Gallary = require("../models/gallaryModel");
+const Review = require("../models/reviewModel");
 
 // features
 const ApiFeatures = require("../utils/apifeatures");
@@ -399,4 +400,14 @@ exports.addGallary = catchAsyncErrors(async (req, res, next) => {
   const result = await Gallary.create(req.body);
 
   sendResponse(res, 200, result);
+});
+
+//review
+exports.newReview = catchAsyncErrors(async (req, res, next) => {
+  req.body.user = req.user;
+  req.body.company = req.company;
+
+  const results = await Review.create(req.body);
+
+  sendResponse(res, 200, results);
 });
