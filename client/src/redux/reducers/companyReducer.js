@@ -18,6 +18,9 @@ import {
   REVIEW_REQUEST,
   REVIEW_SUCCESS,
   REVIEW_FAIL,
+  MY_REVIEW_REQUEST,
+  MY_REVIEW_SUCCESS,
+  MY_REVIEW_FAIL,
 } from "../constants/companyConstants";
 
 export const companyReducer = (state = { company: [] }, action) => {
@@ -187,6 +190,36 @@ export const newReviewReducer = (state = { review: {} }, action) => {
         ...state,
         loading: false,
         review: null,
+        error: action.payload,
+      };
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const myReviewReducer = (state = { myreview: [] }, action) => {
+  switch (action.type) {
+    case MY_REVIEW_REQUEST:
+      return {
+        loading: true,
+      };
+    case MY_REVIEW_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        myreview: action.payload,
+      };
+    case MY_REVIEW_FAIL:
+      return {
+        ...state,
+        loading: false,
+        myreview: null,
         error: action.payload,
       };
     case CLEAR_ERRORS:

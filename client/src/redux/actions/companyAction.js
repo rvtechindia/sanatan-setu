@@ -18,12 +18,15 @@ import {
   REVIEW_REQUEST,
   REVIEW_SUCCESS,
   REVIEW_FAIL,
+  MY_REVIEW_REQUEST,
+  MY_REVIEW_SUCCESS,
+  MY_REVIEW_FAIL,
 } from "../constants/companyConstants";
 import axios from "axios";
 
 import { notifySuccess, notifyError } from "../../utils/toast";
 
-const url = "http://52.66.174.13:3001/api/v1/employer";
+const url = "http://localhost:3001/api/v1/employer";
 
 // category
 export const getCompanies = () => async (dispatch) => {
@@ -53,7 +56,6 @@ export const getcompanyDetails = (id) => async (dispatch) => {
     };
 
     const { data } = await axios.get(`${url}/get/company?id=${id}`, config);
-
 
     dispatch({ type: COMPANY_DETAIL_SUCCESS, payload: data.payload });
   } catch (error) {
@@ -148,5 +150,23 @@ export const newreview = (reviewData) => async (dispatch) => {
   } catch (error) {
     dispatch({ type: REVIEW_FAIL, payload: error.response.data.message });
     notifyError(error.response.data.message);
+  }
+};
+
+export const myReview = () => async (dispatch) => {
+  try {
+    dispatch({ type: MY_REVIEW_REQUEST });
+
+    const config = {
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    };
+
+    const { data } = await axios.get(`${url}/review/me`, config);
+
+    dispatch({ type: MY_REVIEW_SUCCESS, payload: data.payload });
+  } catch (error) {
+    dispatch({ type: MY_REVIEW_FAIL, payload: error.response.data.message });
+    // notifyError(error.response.data.message);
   }
 };

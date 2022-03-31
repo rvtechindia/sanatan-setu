@@ -115,7 +115,7 @@ export const Dashboard = ({ history }) => {
                           aria-controls="new-listing"
                           aria-selected="false"
                         >
-                          <i className="far fa-file"></i> Add Gallary
+                          <i className="far fa-file"></i> Add Business
                         </button>
                       </li>
                       <li className="nav-item" role="presentation">
@@ -319,7 +319,7 @@ export const Dashboard = ({ history }) => {
                         <div className="row justify-content-center">
                           <div className="col-md-10">
                             <div className="text-center">
-                              <h2>Create a new gallary</h2>
+                              <h2>Create a new Listing</h2>
                               <div className="icon">
                                 <div className="eltd-separator">
                                   <span style={{ width: 85, height: 1 }}></span>
@@ -351,10 +351,10 @@ export const Dashboard = ({ history }) => {
                                   <div className="col-md-12 text-center">
                                     {" "}
                                     <Link
-                                      to="/new/gallary"
+                                      to="/listbusiness"
                                       className="button mt-0"
                                     >
-                                      Add New Gallary
+                                      Add New Business
                                       <i className="fas fa-chevron-right"></i>
                                     </Link>{" "}
                                   </div>

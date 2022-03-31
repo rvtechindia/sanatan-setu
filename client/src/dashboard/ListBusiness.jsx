@@ -16,6 +16,7 @@ import { Loader } from "../components/loader/Loader";
 
 ///imports
 import { validateBusinessDetails } from "../utils/Validator";
+import BusinessInformation from "./Business/BusinessInformation";
 
 const ListBusiness = ({ history }) => {
   const { category } = useSelector((state) => state.category);
@@ -42,10 +43,9 @@ const ListBusiness = ({ history }) => {
     dispatch(getAmenityByCategory(selectCategory));
   }, [selectCategory]);
 
-
-  useEffect(()=>{
-    window.scroll(0,0)
-  },[])
+  useEffect(() => {
+    window.scroll(0, 0);
+  }, []);
 
   const handleChange = (e) => {
     const { value, name } = e.target;
@@ -55,23 +55,32 @@ const ListBusiness = ({ history }) => {
     switch (name) {
       case "title":
         setRegistrationData({ ...registrationData, businessName: value });
-        const error = validateBusinessDetails({...registrationData,businessName: value});
+        const error = validateBusinessDetails({
+          ...registrationData,
+          businessName: value,
+        });
         setError(error);
         break;
       case "website":
         setRegistrationData({ ...registrationData, website: value });
-        setError(validateBusinessDetails({...registrationData,website: value}));
+        setError(
+          validateBusinessDetails({ ...registrationData, website: value })
+        );
         break;
       // case "title":
       //   setRegistrationData({ ...registrationData, founded: value });
       //   break;
       case "tagline":
         setRegistrationData({ ...registrationData, tagline: value });
-        setError(validateBusinessDetails({...registrationData,tagline: value}));
+        setError(
+          validateBusinessDetails({ ...registrationData, tagline: value })
+        );
         break;
       case "description":
         setRegistrationData({ ...registrationData, description: value });
-        setError(validateBusinessDetails({...registrationData,description: value}));
+        setError(
+          validateBusinessDetails({ ...registrationData, description: value })
+        );
         break;
       // case "title":
       //   setRegistrationData({ ...registrationData, companyType: value });
@@ -79,7 +88,9 @@ const ListBusiness = ({ history }) => {
       case "category":
         setRegistrationData({ ...registrationData, category: value });
         setSelectCategory(value);
-        setError(validateBusinessDetails({...registrationData,category: value}));
+        setError(
+          validateBusinessDetails({ ...registrationData, category: value })
+        );
         break;
       // case "title":
       //   setRegistrationData({ ...registrationData, size: value });
@@ -105,6 +116,16 @@ const ListBusiness = ({ history }) => {
     description: "",
     companyType: "PVT LTD",
     category: "",
+  });
+
+  const [address, setAddress] = useState({
+    add: "",
+    locality: "",
+    country: "",
+    state: "",
+    city: "",
+    pincode: "",
+    landmark: "",
   });
 
   const setCompanyData = (data, logo, coverImage) => {
@@ -159,7 +180,7 @@ const ListBusiness = ({ history }) => {
   return (
     <>
       {loading && <Loader />}
-      <Caption title="List Business">
+      <Caption title="Add Business">
         <Header />
       </Caption>
       <section className="padding40 " style={{ marginTop: -90 }}>
@@ -200,7 +221,7 @@ const ListBusiness = ({ history }) => {
                       onChange={handleChange}
                       style={error.tagline && { border: "1px solid red" }}
                     />
-                     {error.tagline && (
+                    {error.tagline && (
                       <label style={{ color: "red", fontSize: ".7rem" }}>
                         {error.tagline}
                       </label>
@@ -265,7 +286,7 @@ const ListBusiness = ({ history }) => {
                       onChange={handleChange}
                       style={error.website && { border: "1px solid red" }}
                     />
-                     {error.website && (
+                    {error.website && (
                       <label style={{ color: "red", fontSize: ".7rem" }}>
                         {error.website}
                       </label>
@@ -363,6 +384,58 @@ const ListBusiness = ({ history }) => {
                 </div>
               </div>
             </div>
+
+            {/* gallary */}
+            <div className="col-md-12">
+              <div className="submit-job-form">
+                <div className="title">
+                  <i className="far fa-images"></i> Add a New Gallary
+                </div>
+                <div className="form">
+                  <div className="row">
+                    <div className="col-md-6">
+                      <div className="input-group">
+                        <label>Gallay Title</label>
+                        <input
+                          type="text"
+                          placeholder="Enter Title"
+                          // onChange={(e) => setGallaryTitle(e.target.value)}
+                        />
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="input-group">
+                        <label>Gallery Images </label>
+                        <div className="file-area">
+                          <input
+                            type="file"
+                            name="gallery"
+                            id="gallery"
+                            required="required"
+                            multiple
+                            onChange={handleImage}
+                          />
+                          <div className="file-dummy">
+                            <div className="success">
+                              Great, your files are selected. Keep on.
+                            </div>
+                            <div className="default">
+                              <i className="fas fa-upload"></i>
+                              <br />
+                              Add Image
+                            </div>
+                          </div>
+                        </div>
+                        <p className="small">Maximum file size: 64 MB. </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* address */}
+            <BusinessInformation address={address} setAddress={setAddress} />
 
             <div className="col-md-12 submit-job">
               <button

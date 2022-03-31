@@ -12,12 +12,17 @@ import axios from "axios";
 
 /// actions import
 
-import { getcompanyDetails, newreview } from "../redux/actions/companyAction";
+import {
+  getcompanyDetails,
+  newreview,
+  myReview,
+} from "../redux/actions/companyAction";
 import StarRating from "../components/rating/StarRating";
 
 export const ListingDetail = () => {
   const dispatch = useDispatch();
   const location = useLocation();
+  const [reviewVisibility, setReviewVisibility] = useState(true);
   const [serviceRating, setServiceRating] = useState(0);
   const [priceRating, setPriceRating] = useState(0);
   const [qualityRating, setQualityRating] = useState(0);
@@ -39,12 +44,16 @@ export const ListingDetail = () => {
 
   const { company, loading } = useSelector((state) => state.companyDetail);
   const { user, isAuthenticated } = useSelector((state) => state.user);
+  const { myreview } = useSelector((state) => state.myReview);
 
   useEffect(() => {
     window.scrollTo(0, 0);
     dispatch(getcompanyDetails(id));
   }, [location]);
 
+  useEffect(() => {
+    dispatch(myReview());
+  }, []);
   // useEffect(() => {
   //   // if (!isAuthenticated) {
   //   //   notifyError("please register/login to view company details")
@@ -82,6 +91,7 @@ export const ListingDetail = () => {
       priceReview: priceRating,
       locationReview: locationRating,
       comment: comment,
+      company: id,
     };
     dispatch(newreview(data));
   };
@@ -142,7 +152,7 @@ export const ListingDetail = () => {
                           </div>
                           <div className="col-md-7">
                             <button className="message">
-                              <i className="far fa-comments"></i> Direct message
+                              <i className="far fa-comments"></i> Show Business Details
                             </button>
                           </div>
                         </div>
@@ -298,92 +308,94 @@ export const ListingDetail = () => {
               </div>
             </div>
           </section>
-          <section className="padding40">
-            <div className="container">
-              <div className="row detail">
-                <div className="col-md-8">
-                  <div className="box">
-                    <div className="row">
-                      <div className="col-md-12 ">
-                        <h4>Add Review</h4>
-                        <div className="rating mt-4">
-                          <ul>
-                            <li>
-                              Service?
-                              <br />
-                              <StarRating
-                                parentCallback={serviceRatingcallback}
-                              />
-                            </li>
-                            <li>
-                              Price?
-                              <br />
-                              <StarRating
-                                parentCallback={priceRatingcallback}
-                              />
-                            </li>
-                            <li>
-                              Quality?
-                              <br />
-                              <StarRating
-                                parentCallback={qualityRatingcallback}
-                              />
-                            </li>
-                            <li>
-                              Location?
-                              <br />
-                              <StarRating
-                                parentCallback={locationRatingcallback}
-                              />
-                            </li>
-                          </ul>
-                        </div>
-                        <div className="clearfix mb-4"></div>
-                        <div className="row">
-                          {/* <div className="col-md-6">
-                            <div className="input-group">
-                              <label>
-                                Name <span className="red">*</span>
-                              </label>
-                              <input type="text" placeholder="Your Name" />
+         
+                <section className="padding40">
+                  <div className="container">
+                    <div className="row detail">
+                      <div className="col-md-8">
+                        <div className="box">
+                          <div className="row">
+                            <div className="col-md-12 ">
+                              <h4>Add Review</h4>
+                              <div className="rating mt-4">
+                                <ul>
+                                  <li>
+                                    Service?
+                                    <br />
+                                    <StarRating
+                                      parentCallback={serviceRatingcallback}
+                                    />
+                                  </li>
+                                  <li>
+                                    Price?
+                                    <br />
+                                    <StarRating
+                                      parentCallback={priceRatingcallback}
+                                    />
+                                  </li>
+                                  <li>
+                                    Quality?
+                                    <br />
+                                    <StarRating
+                                      parentCallback={qualityRatingcallback}
+                                    />
+                                  </li>
+                                  <li>
+                                    Location?
+                                    <br />
+                                    <StarRating
+                                      parentCallback={locationRatingcallback}
+                                    />
+                                  </li>
+                                </ul>
+                              </div>
+                              <div className="clearfix mb-4"></div>
+                              <div className="row">
+                                {/* <div className="col-md-6">
+                              <div className="input-group">
+                                <label>
+                                  Name <span className="red">*</span>
+                                </label>
+                                <input type="text" placeholder="Your Name" />
+                              </div>
                             </div>
-                          </div>
-                          <div className="col-md-6">
-                            <div className="input-group">
-                              <label>
-                                Email <span className="red">*</span>
-                              </label>
-                              <input type="text" placeholder="Your Email" />
+                            <div className="col-md-6">
+                              <div className="input-group">
+                                <label>
+                                  Email <span className="red">*</span>
+                                </label>
+                                <input type="text" placeholder="Your Email" />
+                              </div>
+                            </div> */}
+                                <div className="col-md-12">
+                                  <div className="input-group">
+                                    <label>Review</label>
+                                    <textarea
+                                      placeholder="Review"
+                                      name="comment"
+                                      onChange={handleChange}
+                                    ></textarea>
+                                  </div>
+                                </div>
+                                <div className="col-md-12 input-group">
+                                  <input
+                                    type="submit"
+                                    value="Submit Review"
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      submitReview();
+                                    }}
+                                  />
+                                </div>
+                              </div>
                             </div>
-                          </div> */}
-                          <div className="col-md-12">
-                            <div className="input-group">
-                              <label>Review</label>
-                              <textarea
-                                placeholder="Review"
-                                name="comment"
-                                onChange={handleChange}
-                              ></textarea>
-                            </div>
-                          </div>
-                          <div className="col-md-12 input-group">
-                            <input
-                              type="submit"
-                              value="Submit Review"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                submitReview();
-                              }}
-                            />
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            </div>
-          </section>
+                </section>
+           
         </>
       ) : (
         <div>Loading</div>

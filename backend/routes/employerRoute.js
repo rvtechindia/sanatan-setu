@@ -14,7 +14,9 @@ const {
   getFav,
   companyByUser,
   addGallary,
-  newReview
+  newReview,
+  getMyReview,
+  newEnquiry,
 } = require("../controllers/employerController");
 const { isAuthenticatedUser, authorizeRoles } = require("../middleware/auth");
 
@@ -115,5 +117,9 @@ router
 
 //review
 router.route("/new/review").put(isAuthenticatedUser, newReview);
+
+router.route("/review/me").get(isAuthenticatedUser, getMyReview);
+
+router.route("/new/enquiry").post(isAuthenticatedUser, newEnquiry);
 
 module.exports = router;

@@ -81,7 +81,10 @@ const Register = ({ history }) => {
       case "confirm-password":
         setRegistrationData({ ...registrationData, confirmPassword: value });
         setValidationError(
-          validateRegisterDetails({ ...registrationData, confirmPassword: value })
+          validateRegisterDetails({
+            ...registrationData,
+            confirmPassword: value,
+          })
         );
         break;
       case "user-type":
@@ -122,7 +125,7 @@ const Register = ({ history }) => {
                 name="username"
                 onChange={handleChange}
               />
-               {validationError.name && (
+              {validationError.name && (
                 <label style={{ color: "red", fontSize: ".7rem" }}>
                   {validationError.name}
                 </label>
@@ -149,11 +152,11 @@ const Register = ({ history }) => {
                   name="phone"
                   onChange={handleChange}
                 />
-                 {validationError.phone && (
-                <label style={{ color: "red", fontSize: ".7rem" }}>
-                  {validationError.phone}
-                </label>
-              )}
+                {validationError.phone && (
+                  <label style={{ color: "red", fontSize: ".7rem" }}>
+                    {validationError.phone}
+                  </label>
+                )}
               </div>
               <div className="col-md-3 text-end">
                 <a onClick={() => console.log("clicked")} className="verify">
@@ -177,7 +180,7 @@ const Register = ({ history }) => {
                 placeholder="Password"
                 onChange={handleChange}
               />
-               {validationError.password && (
+              {validationError.password && (
                 <label style={{ color: "red", fontSize: ".7rem" }}>
                   {validationError.password}
                 </label>
@@ -202,6 +205,18 @@ const Register = ({ history }) => {
                 </label>
               )}
             </div>
+            <div className="form-check col-md-12">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                value=""
+                id="defaultCheck1"
+              />
+              <label className="form-check-label" htmlFor="defaultCheck1">
+                {" "}
+               I agree to the <a href="#">Privacy Policy & Terms of Services</a> (required )
+              </label>
+            </div>
             <div className="border-1"></div>
             <div className="input-group text-center">
               <button
@@ -213,6 +228,7 @@ const Register = ({ history }) => {
                 Register
               </button>
             </div>
+
             <div className="action-holder">
               <p>Have an account? Log in?</p>
               <Link to="/login">Log in</Link>{" "}

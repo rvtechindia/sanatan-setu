@@ -11,7 +11,7 @@ const addressSchema = new mongoose.Schema({
   country: {
     type: mongoose.Schema.ObjectId,
     ref: "Country",
-    required: [true, "Please Enter Country"],
+    // required: [true, "Please Enter Country"],
   },
   state: {
     type: mongoose.Schema.ObjectId,

@@ -405,9 +405,28 @@ exports.addGallary = catchAsyncErrors(async (req, res, next) => {
 //review
 exports.newReview = catchAsyncErrors(async (req, res, next) => {
   req.body.user = req.user;
-  req.body.company = req.company;
+
+  const review = await Review.findOne({ company: req.body.company });
+  if (review) {
+    return next(
+      new ErrorHander(
+        "You have already submitted rating ! After Approved by admin it will be visible",
+        401
+      )
+    );
+  }
 
   const results = await Review.create(req.body);
 
   sendResponse(res, 200, results);
 });
+
+exports.getMyReview = catchAsyncErrors(async (req, res, next) => {
+  const results = await Review.find({ user: req.user._id });
+
+  sendResponse(res, 200, results);
+});
+
+exports.newEnquiry = catchAsyncErrors(async (req, res, next) => {
+  
+})
