@@ -30,11 +30,11 @@ const ListingPage = ({ history }) => {
     }
     search(keyword);
     searchByCategory(keyword);
-  }, []);
+  }, [location]);
 
   useEffect(() => {
     window.scroll(0, 0);
-  }, []);
+  }, [location]);
 
   const search = async (id) => {
     await axios

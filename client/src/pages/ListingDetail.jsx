@@ -28,6 +28,7 @@ export const ListingDetail = () => {
   const [qualityRating, setQualityRating] = useState(0);
   const [locationRating, setLocationRating] = useState(0);
   const [comment, setComment] = useState("");
+  const [toogle, setToogle] = useState(false);
   const serviceRatingcallback = useCallback((count) => {
     setServiceRating(count);
   }, []);
@@ -61,6 +62,29 @@ export const ListingDetail = () => {
   //   // }
   // }, []);
 
+  useEffect(() => {
+    fetchWishlist(id);
+  }, [toogle]);
+
+  const fetchWishlist = async (id) => {
+    const config = {
+      // headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    };
+    await axios
+      .get(
+        `${apiURL}/api/v1/employer/get/wishlist?id=${id}`,
+
+        config
+      )
+      .then((res) => {
+        setToogle(res.data.payload.length > 0 ? true : false);
+        console.log(res.data.fav);
+        // localStorage.setItem(res.data.fav.company, res.data.fav.company);
+      })
+      .catch((e) => console.log(e));
+  };
+
   const addToFav = async (id, name) => {
     const config = {
       headers: { "Content-Type": "application/json" },
@@ -76,6 +100,8 @@ export const ListingDetail = () => {
       )
       .then((res) => {
         notifySuccess(res.data.message);
+        console.log(res.data.fav);
+        localStorage.setItem(res.data.fav.company, res.data.fav.company);
       })
       .catch((e) => notifyError(e.response.data.message));
   };
@@ -138,7 +164,10 @@ export const ListingDetail = () => {
                               addToFav(company._id, company.businessName)
                             }
                           >
-                            <i className="far fa-star"></i> Add to Favorite
+                            <i className="far fa-star"></i>{" "}
+                            {toogle
+                              ? "Remove from Wishlist"
+                              : "Add to wishlist"}
                           </Link>
                         </p>
                         <div className="row">
@@ -152,7 +181,8 @@ export const ListingDetail = () => {
                           </div>
                           <div className="col-md-7">
                             <button className="message">
-                              <i className="far fa-comments"></i> Show Business Details
+                              <i className="far fa-comments"></i> Show Business
+                              Details
                             </button>
                           </div>
                         </div>
@@ -308,50 +338,50 @@ export const ListingDetail = () => {
               </div>
             </div>
           </section>
-         
-                <section className="padding40">
-                  <div className="container">
-                    <div className="row detail">
-                      <div className="col-md-8">
-                        <div className="box">
-                          <div className="row">
-                            <div className="col-md-12 ">
-                              <h4>Add Review</h4>
-                              <div className="rating mt-4">
-                                <ul>
-                                  <li>
-                                    Service?
-                                    <br />
-                                    <StarRating
-                                      parentCallback={serviceRatingcallback}
-                                    />
-                                  </li>
-                                  <li>
-                                    Price?
-                                    <br />
-                                    <StarRating
-                                      parentCallback={priceRatingcallback}
-                                    />
-                                  </li>
-                                  <li>
-                                    Quality?
-                                    <br />
-                                    <StarRating
-                                      parentCallback={qualityRatingcallback}
-                                    />
-                                  </li>
-                                  <li>
-                                    Location?
-                                    <br />
-                                    <StarRating
-                                      parentCallback={locationRatingcallback}
-                                    />
-                                  </li>
-                                </ul>
-                              </div>
-                              <div className="clearfix mb-4"></div>
-                              <div className="row">
-                                {/* <div className="col-md-6">
+
+          <section className="padding40">
+            <div className="container">
+              <div className="row detail">
+                <div className="col-md-8">
+                  <div className="box">
+                    <div className="row">
+                      <div className="col-md-12 ">
+                        <h4>Add Review</h4>
+                        <div className="rating mt-4">
+                          <ul>
+                            <li>
+                              Service?
+                              <br />
+                              <StarRating
+                                parentCallback={serviceRatingcallback}
+                              />
+                            </li>
+                            <li>
+                              Price?
+                              <br />
+                              <StarRating
+                                parentCallback={priceRatingcallback}
+                              />
+                            </li>
+                            <li>
+                              Quality?
+                              <br />
+                              <StarRating
+                                parentCallback={qualityRatingcallback}
+                              />
+                            </li>
+                            <li>
+                              Location?
+                              <br />
+                              <StarRating
+                                parentCallback={locationRatingcallback}
+                              />
+                            </li>
+                          </ul>
+                        </div>
+                        <div className="clearfix mb-4"></div>
+                        <div className="row">
+                          {/* <div className="col-md-6">
                               <div className="input-group">
                                 <label>
                                   Name <span className="red">*</span>
@@ -367,35 +397,34 @@ export const ListingDetail = () => {
                                 <input type="text" placeholder="Your Email" />
                               </div>
                             </div> */}
-                                <div className="col-md-12">
-                                  <div className="input-group">
-                                    <label>Review</label>
-                                    <textarea
-                                      placeholder="Review"
-                                      name="comment"
-                                      onChange={handleChange}
-                                    ></textarea>
-                                  </div>
-                                </div>
-                                <div className="col-md-12 input-group">
-                                  <input
-                                    type="submit"
-                                    value="Submit Review"
-                                    onClick={(e) => {
-                                      e.preventDefault();
-                                      submitReview();
-                                    }}
-                                  />
-                                </div>
-                              </div>
+                          <div className="col-md-12">
+                            <div className="input-group">
+                              <label>Review</label>
+                              <textarea
+                                placeholder="Review"
+                                name="comment"
+                                onChange={handleChange}
+                              ></textarea>
                             </div>
+                          </div>
+                          <div className="col-md-12 input-group">
+                            <input
+                              type="submit"
+                              value="Submit Review"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                submitReview();
+                              }}
+                            />
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </section>
-           
+                </div>
+              </div>
+            </div>
+          </section>
         </>
       ) : (
         <div>Loading</div>

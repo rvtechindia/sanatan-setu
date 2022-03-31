@@ -16,7 +16,7 @@ export const CategoryCard = ({ places, category, icon, image, id }) => {
           <Link
             className="link-btn"
             to={{
-              pathname: `business/${category}`,
+              pathname: `business/${category.replace(" ","-")}`,
               state: { keyword: id },
             }}
           ></Link>{" "}

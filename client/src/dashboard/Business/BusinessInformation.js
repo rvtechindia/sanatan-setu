@@ -7,20 +7,31 @@ const BusinessInformation = ({ setAddress, address }) => {
   const [city, setCity] = useState([]);
 
   const fetchState = async () => {
+    const config = {
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    };
     await axios
-      .get(`${apiURL}/api/v1/get/all/state`)
-      .then((res) => setState(res.data.state))
+      .get(`${apiURL}/api/v1/get/all/state`, config)
+      .then((res) => {
+        setState(res.data.state);
+        console.log(res.data);
+      })
       .catch((e) => console.log(e));
   };
 
   const fetchCity = async (id) => {
+    const config = {
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    };
     await axios
-      .get(`${apiURL}/api/v1/get/city?id=${id}`)
+      .get(`${apiURL}/api/v1/get/city?id=${id}`, config)
       .then((res) => setCity(res.data.city))
       .catch((e) => console.log(e));
   };
 
-  useEffect(async () => {
+  useEffect(() => {
     fetchState();
   }, []);
 

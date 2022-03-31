@@ -1,9 +1,11 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useHistory, Redirect } from "react-router-dom";
 
 export const Footer = () => {
   const { category } = useSelector((state) => state.category);
+  const history = useHistory();
+
   return (
     <>
       <footer>
@@ -74,11 +76,17 @@ export const Footer = () => {
                   {category?.map((item, i) => {
                     if (i > 4) return;
                     return (
-                      <li key={i} >
+                      <li key={i}>
                         <Link
-                          to={{
-                            pathname: `business/${item.businessCategory}`,
-                            state: { keyword: item._id },
+                          onClick={() => {
+                            history.push({
+                              pathname: `/business/${item.businessCategory.replace(
+                                " ",
+                                "-"
+                              )}`,
+                              state: { keyword: item._id },
+                              url:"/"
+                            });
                           }}
                         >
                           {item.businessCategory}

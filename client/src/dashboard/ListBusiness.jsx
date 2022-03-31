@@ -101,7 +101,12 @@ const ListBusiness = ({ history }) => {
   const handleSubmit = async () => {
     const error = validateBusinessDetails(registrationData);
     setError(error);
-    if (Object.keys(error).length) return;
+
+    if (Object.keys(error).length) {
+      notifyError("Please fill the empty fields");
+      window.scroll(0, 0);
+      return;
+    }
     const data = setCompanyData(registrationData, logo, coverImage);
     await dispatch(newCompany(data));
     setLoading(false);

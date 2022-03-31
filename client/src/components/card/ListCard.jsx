@@ -16,7 +16,12 @@ export const ListCard = ({
       <div className="listing-gird">
         <div className="image">
           {" "}
-          <Link to={{ pathname: `/listDetails/${name}`, state: { id } }}>
+          <Link
+            to={{
+              pathname: `/listDetails/${name.replace(" ", "-")}`,
+              state: { id },
+            }}
+          >
             <img src={image} className="img-fluid" />
           </Link>{" "}
         </div>
@@ -28,7 +33,12 @@ export const ListCard = ({
           </span>{" "}
         </div>
         <h2>
-          <Link to={{ pathname: `/listDetails/${name}`, state: { id } }}>
+          <Link
+            to={{
+              pathname: `/listDetails/${name.replace(" ", "-")}`,
+              state: { id },
+            }}
+          >
             {name}
           </Link>
         </h2>

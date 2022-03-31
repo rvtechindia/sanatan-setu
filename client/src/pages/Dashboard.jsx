@@ -215,14 +215,14 @@ export const Dashboard = ({ history }) => {
                                 </div>
                               </div>
                             </div>
-                            <div className="account mb-4">
+                            {/* <div className="account mb-4">
                               <h5>Mail</h5>
                               <p>
                                 <b>
                                   <a href="#">{user?.email}</a>
                                 </b>
                               </p>
-                            </div>
+                            </div> */}
                             {/* <div className="account mb-4">
                               <h5>Social Profiles </h5>
                               <div className="use-info-1">
