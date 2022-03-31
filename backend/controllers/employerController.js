@@ -343,12 +343,12 @@ exports.addToFav = catchAsyncErrors(async (req, res, next) => {
     await exits.remove();
     return res
       .status(201)
-      .json({ success: true, message: "Removed from Wishlist" });
+      .json({ success: true, message: "Removed from Wishlist" ,toogle:"remove" });
   }
 
   const fav = await Favorite.create(req.body);
 
-  res.status(200).json({ success: true, fav, message: "Business is added in your Wishlist" });
+  res.status(200).json({ success: true, fav, message: "Business is added in your Wishlist",toogle:"add" });
 });
 
 exports.getFav = catchAsyncErrors(async (req, res, next) => {

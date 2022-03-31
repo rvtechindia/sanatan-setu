@@ -104,8 +104,10 @@ export const ListingDetail = () => {
           localStorage.removeItem(company._id);
           return;
         }
-        notifySuccess(res.data.message);
-        localStorage.setItem(res.data.fav.company, res.data.fav.company);
+        if (res.data.toogle == "add") {
+          notifySuccess(res.data.message);
+          localStorage.setItem(res.data.fav.company, res.data.fav.company);
+        }
       })
       .catch((e) => notifyError(e.response.data.message));
   };
