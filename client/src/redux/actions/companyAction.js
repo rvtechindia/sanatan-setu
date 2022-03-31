@@ -26,7 +26,7 @@ import axios from "axios";
 
 import { notifySuccess, notifyError } from "../../utils/toast";
 
-const url = "http://localhost:3001/api/v1/employer";
+const url = "http://52.66.174.13:3001/api/v1/employer";
 
 // category
 export const getCompanies = () => async (dispatch) => {

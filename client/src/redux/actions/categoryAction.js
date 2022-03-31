@@ -9,7 +9,7 @@ import {
 } from "../constants/categoryConstants";
 import axios from "axios";
 
-const url = "http://localhost:3001/api/v1";
+const url = "http://52.66.174.13:3001/api/v1";
 
 // category
 export const getCategories = () => async (dispatch) => {
