@@ -17,6 +17,7 @@ const {
   newReview,
   getMyReview,
   newEnquiry,
+  getWishlistByCompany,
 } = require("../controllers/employerController");
 const { isAuthenticatedUser, authorizeRoles } = require("../middleware/auth");
 
@@ -82,6 +83,7 @@ router
 router.route("/get/company").get(getCompanyDetails);
 router.route("/add/fav").post(isAuthenticatedUser, addToFav);
 router.route("/get/fav").get(isAuthenticatedUser, getFav);
+router.route("/get/wishlist").get(isAuthenticatedUser, getWishlistByCompany);
 
 // Normal User Route
 

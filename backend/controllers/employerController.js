@@ -335,22 +335,53 @@ exports.addToFav = catchAsyncErrors(async (req, res, next) => {
 
   req.body.company = id;
   req.body.user = req.user;
+  console.log(req.user)
 
-  const exits = await Favorite.findOne({ user: req.user });
+  const exits = await Favorite.findOne({ company: id });
 
-  if (exits)
+  if (exits) {
+    await exits.remove();
     return res
       .status(201)
-      .json({ success: true, message: "Already Exits in Favourite list" });
+      .json({ success: true, message: "Removed from Wishlist" });
+  }
 
   const fav = await Favorite.create(req.body);
 
-  res.status(200).json({ success: true, message: "successfully Added" });
+  res.status(200).json({ success: true, fav, message: "Business is added in your Wishlist" });
 });
 
 exports.getFav = catchAsyncErrors(async (req, res, next) => {
   const id = req.user._id;
   const results = await Favorite.find({ user: id }).populate("company");
+
+  var companies = [];
+
+  let i = 0;
+  // console.log(results.length);
+
+  while (i < results.length) {
+    companies = [
+      ...companies,
+      {
+        businessName: results[i].company.businessName,
+        category: results[i].company.category.businessCategory,
+        image: results[i].company.coverImage,
+        phone: "9560988343",
+        location: "Ghaziabad , UP",
+        Status: "Open",
+        id: results[i].company._id,
+      },
+    ];
+
+    i++;
+  }
+  sendResponse(res, 200, companies);
+});
+
+exports.getWishlistByCompany = catchAsyncErrors(async (req, res, next) => {
+  const id = req.query.id;
+  const results = await Favorite.find({ company: id }).populate("company");
 
   var companies = [];
 
@@ -427,6 +458,4 @@ exports.getMyReview = catchAsyncErrors(async (req, res, next) => {
   sendResponse(res, 200, results);
 });
 
-exports.newEnquiry = catchAsyncErrors(async (req, res, next) => {
-  
-})
+exports.newEnquiry = catchAsyncErrors(async (req, res, next) => {});

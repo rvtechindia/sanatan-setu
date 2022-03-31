@@ -26,8 +26,8 @@ const userSchema = new mongoose.Schema({
   phone: {
     type: Number,
   },
-  otpVerification:{
-    type:Boolean,
+  otpVerification: {
+    type: Boolean,
     default: false,
   },
   avatar: {
@@ -40,7 +40,7 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    default: "user",
+    default: "employer",
   },
   createdAt: {
     type: Date,
