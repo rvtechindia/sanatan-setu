@@ -30,7 +30,7 @@ export const ListingDetail = () => {
   const [qualityRating, setQualityRating] = useState(0);
   const [locationRating, setLocationRating] = useState(0);
   const [comment, setComment] = useState("");
-  const [toogle, setToogle] = useState(false);
+  const [toogle, setToogle] = useState();
   const serviceRatingcallback = useCallback((count) => {
     setServiceRating(count);
   }, []);
@@ -56,6 +56,11 @@ export const ListingDetail = () => {
 
   useEffect(() => {
     dispatch(myReview());
+    if (localStorage.getItem(id)) {
+      setToogle(true);
+    } else {
+      setToogle(false);
+    }
   }, []);
   // useEffect(() => {
   //   // if (!isAuthenticated) {
@@ -63,14 +68,6 @@ export const ListingDetail = () => {
   //   //   history.push("/");
   //   // }
   // }, []);
-
-  useEffect(() => {
-    if (localStorage.getItem(id)) {
-      setToogle(true);
-    } else {
-      setToogle(false);
-    }
-  }, [localStorage]);
 
   const addToFav = async (id, name) => {
     const config = {
@@ -89,11 +86,13 @@ export const ListingDetail = () => {
         if (res.data.toogle == "remove") {
           notifyError(res.data.message);
           localStorage.removeItem(company._id);
+          setToogle(false);
           return;
         }
         if (res.data.toogle == "add") {
           notifySuccess(res.data.message);
           localStorage.setItem(res.data.fav.company, res.data.fav.company);
+          setToogle(true);
         }
       })
       .catch((e) => notifyError(e.response.data.message));
