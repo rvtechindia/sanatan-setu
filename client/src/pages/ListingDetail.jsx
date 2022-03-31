@@ -10,6 +10,8 @@ import { apiURL } from "../routes/api";
 
 import axios from "axios";
 
+import { Loader } from "../components/loader/Loader";
+
 /// actions import
 
 import {
@@ -63,27 +65,12 @@ export const ListingDetail = () => {
   // }, []);
 
   useEffect(() => {
-    fetchWishlist(id);
-  }, [toogle]);
-
-  const fetchWishlist = async (id) => {
-    const config = {
-      // headers: { "Content-Type": "application/json" },
-      withCredentials: true,
-    };
-    await axios
-      .get(
-        `${apiURL}/api/v1/employer/get/wishlist?id=${id}`,
-
-        config
-      )
-      .then((res) => {
-        setToogle(res.data.payload.length > 0 ? true : false);
-        console.log(res.data.fav);
-        // localStorage.setItem(res.data.fav.company, res.data.fav.company);
-      })
-      .catch((e) => console.log(e));
-  };
+    if (localStorage.getItem(id)) {
+      setToogle(true);
+    } else {
+      setToogle(false);
+    }
+  }, [localStorage]);
 
   const addToFav = async (id, name) => {
     const config = {
@@ -171,7 +158,7 @@ export const ListingDetail = () => {
                             }
                           >
                             <i className="far fa-star"></i>{" "}
-                            {localStorage.getItem(company._id)
+                            {toogle
                               ? "Remove from Wishlist"
                               : "Add to wishlist"}
                           </Link>
@@ -433,7 +420,7 @@ export const ListingDetail = () => {
           </section>
         </>
       ) : (
-        <div>Loading</div>
+        <Loader />
       )}
     </>
   );
