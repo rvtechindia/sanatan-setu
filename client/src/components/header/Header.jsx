@@ -29,7 +29,7 @@ const Header = () => {
                 aria-label="Toggle navigation"
               >
                 {" "}
-                <img src="assets/images/menu.png" />
+                <img src="../assets/images/menu.png" />
               </button>
               <div
                 className="collapse navbar-collapse  justify-content-end "

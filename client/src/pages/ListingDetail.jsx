@@ -165,7 +165,7 @@ export const ListingDetail = () => {
                             }
                           >
                             <i className="far fa-star"></i>{" "}
-                            {toogle
+                            {localStorage.getItem(company._id)
                               ? "Remove from Wishlist"
                               : "Add to wishlist"}
                           </Link>
