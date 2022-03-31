@@ -99,8 +99,12 @@ export const ListingDetail = () => {
         config
       )
       .then((res) => {
+        if (res.data.toogle == "remove") {
+          notifyError(res.data.message);
+          localStorage.removeItem(company._id);
+          return;
+        }
         notifySuccess(res.data.message);
-        console.log(res.data.fav);
         localStorage.setItem(res.data.fav.company, res.data.fav.company);
       })
       .catch((e) => notifyError(e.response.data.message));
