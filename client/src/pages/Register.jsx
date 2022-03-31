@@ -17,6 +17,8 @@ const Register = ({ history }) => {
     (state) => state.user
   );
 
+  const [checked, setChecked] = useState(false);
+
   useEffect(() => {
     window.scroll(0, 0);
   }, []);
@@ -46,6 +48,7 @@ const Register = ({ history }) => {
     confirmPassword: "",
     role: "",
     avatar: [],
+    checked: false,
   });
 
   const handleChange = (e) => {
@@ -108,7 +111,7 @@ const Register = ({ history }) => {
       formData.append("role", registrationData.role);
     dispatch(register(formData));
   };
-
+  // console.log(checked);
   return (
     <>
       <Caption title="Register">
@@ -209,13 +212,26 @@ const Register = ({ history }) => {
               <input
                 className="form-check-input"
                 type="checkbox"
-                value=""
+                defaultChecked={checked}
                 id="defaultCheck1"
+                onChange={(e) => {
+                  setRegistrationData({
+                    ...registrationData,
+                    checked: e.target.checked,
+                  });
+                  validateRegisterDetails({ checked: e.target.checked });
+                }}
               />
               <label className="form-check-label" htmlFor="defaultCheck1">
                 {" "}
-               I agree to the <a href="#">Privacy Policy & Terms of Services</a> (required )
+                I agree to the <a href="#">Privacy Policy</a> &{" "}
+                <a href="#">Terms of Services </a>
               </label>
+              {validationError.checked && (
+                <label style={{ color: "red", fontSize: ".7rem" }}>
+                  {validationError.checked}
+                </label>
+              )}
             </div>
             <div className="border-1"></div>
             <div className="input-group text-center">

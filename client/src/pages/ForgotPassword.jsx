@@ -4,18 +4,17 @@ import { Caption } from "../components/breadcrum/Caption";
 import AuthContainer from "../components/auth/AuthContainer";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import {forgotPassword} from "../redux/actions/userAction"
+import { forgotPassword } from "../redux/actions/userAction";
 import { notifySuccess } from "../utils/toast";
-
+import GoogleAuth from "../utils/GoogleAuth";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState();
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const handleSubmit =async()=>{
-    dispatch(forgotPassword({email}))
-   
+  const handleSubmit = async () => {
+    dispatch(forgotPassword({ email }));
   };
 
   return (
@@ -36,10 +35,14 @@ const ForgotPassword = () => {
               />
             </div>
             <div className="input-group text-center">
-              <button onClick={(e)=>{
-                e.preventDefault()
-                handleSubmit()
-              }} >New Password</button>
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleSubmit();
+                }}
+              >
+                New Password
+              </button>
             </div>
             <div className="action-holder">
               <p>Password reset link will be sent to your email</p>
@@ -48,26 +51,7 @@ const ForgotPassword = () => {
             <div className="social-login">
               <p>Connect with Social Networks</p>
               <ul>
-                <li>
-                  <a href="#">
-                    <i className="fab fa-facebook-f"></i>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i className="fab fa-twitter"></i>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i className="fab fa-pinterest-p"></i>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i className="fab fa-linkedin-in"></i>
-                  </a>
-                </li>
+                <GoogleAuth />
               </ul>
             </div>
           </div>

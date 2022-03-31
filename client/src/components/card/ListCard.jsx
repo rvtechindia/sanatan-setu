@@ -37,9 +37,9 @@ export const ListCard = ({
           <span className="location">
             <i className="fas fa-map-marker-alt"></i> {location}
           </span>{" "}
-          <span className="phone">
+          {/* <span className="phone">
             <i className="fas fa-phone-alt"></i> {phone}
-          </span>{" "}
+          </span>{" "} */}
         </div>
       </div>
     </div>

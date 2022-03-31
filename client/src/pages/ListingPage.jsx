@@ -8,7 +8,6 @@ import axios from "axios";
 import { apiURL } from "../routes/api";
 import { notifyError } from "../utils/toast";
 
-
 const ListingPage = ({ history }) => {
   const { company } = useSelector((state) => state.company);
   const { category } = useSelector((state) => state.category);
@@ -56,7 +55,8 @@ const ListingPage = ({ history }) => {
       .get(link)
       .then((res) => {
         setSearchData(res.data.searchData);
-        if(res.data.searchData.length === 0) notifyError("No Search Result found !")
+        if (res.data.searchData.length === 0)
+          notifyError("No Search Result found !");
         executeScroll();
       })
       .catch((e) => console.log(e));
@@ -82,10 +82,10 @@ const ListingPage = ({ history }) => {
           <div className="container">
             <div className="row category-banner">
               <div className="col-md-12 text-center mt-5">
-                <h2>Welcome To The Biggest Business Directory</h2>
+                <h2>First Bharatiya Online Business directory</h2>
                 <p>
-                  It is a long established fact that a reader will be distracted
-                  by the readable.
+                  Find Sanatan businesses in your local area or anywhere in
+                  Bharat.
                 </p>
               </div>
               <div className="col-xl-10 col-lg-12 col-md-12 d-block mx-auto">
@@ -98,8 +98,7 @@ const ListingPage = ({ history }) => {
                           placeholder="Phrase or Keywords"
                           onChange={(e) => setKeyword(e.target.value)}
                           onKeyDown={(e) => {
-                            
-                            if(e.key === "Enter"){
+                            if (e.key === "Enter") {
                               setLoading(true);
                               search(keyword, selectedCategory);
                             }
@@ -207,11 +206,14 @@ const ListingPage = ({ history }) => {
           <div className="container">
             <div className="row popular">
               <div className="col-md-12 text-center">
-                <h5>  {searchData.length > 0
-                  ? `Showing 1 – ${searchData && searchData.length} of ${
-                      searchData && searchData.length
-                    } results for '${keyword}'`
-                  : "No Result Found"}</h5>
+                <h5>
+                  {" "}
+                  {searchData.length > 0
+                    ? `Showing 1 – ${searchData && searchData.length} of ${
+                        searchData && searchData.length
+                      } results for '${keyword}'`
+                    : "No Result Found"}
+                </h5>
                 <p className="mb-5">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
                   do eiusmod tempor incididunt ut labore
@@ -251,7 +253,7 @@ const ListingPage = ({ history }) => {
           <div className="container">
             <div className="row popular">
               <div className="col-md-12 text-center">
-                <h2>Popular Business Directories</h2>
+                <h2>Popular Businesses </h2>
                 <p className="mb-5">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
                   do eiusmod tempor incididunt ut labore
@@ -294,7 +296,7 @@ const ListingPage = ({ history }) => {
               <h2>
                 Discover Great Local
                 <br />
-                Businesses in Dubai
+                Businesses in Your Area
               </h2>
             </div>
             <div className="col-md-4">

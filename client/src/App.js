@@ -29,7 +29,7 @@ import Gallary from "./dashboard/Business/Gallary";
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(loadUser());
+    // dispatch(loadUser());
     dispatch(getCompanies())
     dispatch(getCategories());
     

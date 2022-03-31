@@ -25,9 +25,9 @@ export const Dashboard = ({ history }) => {
     emai: "",
   });
 
-  useEffect(()=>{
-    window.scroll(0,0)
-  },[])
+  useEffect(() => {
+    window.scroll(0, 0);
+  }, []);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -223,7 +223,7 @@ export const Dashboard = ({ history }) => {
                                 </b>
                               </p>
                             </div>
-                            <div className="account mb-4">
+                            {/* <div className="account mb-4">
                               <h5>Social Profiles </h5>
                               <div className="use-info-1">
                                 <div className="row">
@@ -234,7 +234,7 @@ export const Dashboard = ({ history }) => {
                                   </div>
                                 </div>
                               </div>
-                            </div>
+                            </div> */}
                           </div>
                         </div>
                       </div>
@@ -281,7 +281,7 @@ export const Dashboard = ({ history }) => {
                                 <div className="input-group">
                                   <label>Email</label>
                                   <input
-                                    type="email"
+                                    type="text"
                                     name="p-email"
                                     onChange={ProfileChange}
                                   />
@@ -400,10 +400,28 @@ export const Dashboard = ({ history }) => {
                                 <div className="row">
                                   <div className="col-md-12 text-center">
                                     <p className="pt-0">
-                                      You currently have {myBusiness?.length}{" "}
+                                      You currently have{" "}
+                                      {myBusiness?.length
+                                        ? myBusiness.length
+                                        : "0"}{" "}
                                       listings
                                     </p>
                                   </div>
+
+                                  {!myBusiness?.length ? (
+                                    <div className="col-md-12 text-center">
+                                      {" "}
+                                      <Link
+                                        to="/listbusiness"
+                                        className="button mt-0"
+                                      >
+                                        Add My Business
+                                        <i className="fas fa-chevron-right"></i>
+                                      </Link>{" "}
+                                    </div>
+                                  ) : (
+                                    <div></div>
+                                  )}
 
                                   <article>
                                     <div className="container">
@@ -423,9 +441,9 @@ export const Dashboard = ({ history }) => {
                                                 }
                                                 type={item.Status}
                                               />
+
                                             </>
                                           ))}
-                                        <button>delete</button>
                                       </div>
                                     </div>
                                   </article>
@@ -457,11 +475,7 @@ export const Dashboard = ({ history }) => {
                                 </div>
                               </div>
                               <p>
-                                This page contains all the items you have added
-                                to your personal wishlist. Add items to
-                                <br />
-                                your wishlist by clicking the “heart” icon while
-                                logged in to your account.
+                              Your Wishlist is Empty.
                               </p>
                             </div>
                             <div className="account mb-4">
@@ -469,8 +483,18 @@ export const Dashboard = ({ history }) => {
                                 <div className="row">
                                   <div className="col-md-12 text-center">
                                     <p className="pt-0">
-                                      Your wishlist is empty.
+                                    Browse businesses and start adding them as in your Wishlist.
                                     </p>
+                                  </div>
+                                  <div className="col-md-12 text-center">
+                                    {" "}
+                                    <Link
+                                      to="/listingPage"
+                                      className="button mt-0"
+                                    >
+                                     Explore Businesses
+                                      <i className="fas fa-chevron-right"></i>
+                                    </Link>{" "}
                                   </div>
                                 </div>
                               </div>
