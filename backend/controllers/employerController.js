@@ -69,7 +69,7 @@ const imageStructure = async (imageData) => {
 // Add Company (employer)
 
 exports.addCompany = catchAsyncErrors(async (req, res, next) => {
-  const { logo, coverImage } = req.body;
+  const { logo, coverImage } = req.body.registrationData;
 
   let images = [];
 
@@ -103,11 +103,11 @@ exports.addCompany = catchAsyncErrors(async (req, res, next) => {
     });
   }
 
-  req.body.logo = imagesLink[0];
-  req.body.coverImage = imagesLink[1];
+  req.body.registrationData.logo = imagesLink[0];
+  req.body.registrationData.coverImage = imagesLink[1];
 
   req.body.user = req.user;
-  const company = await Company.create(req.body);
+  const company = await Company.create(req.body.registrationData);
   sendResponse(res, 200, company);
 });
 
@@ -335,7 +335,7 @@ exports.addToFav = catchAsyncErrors(async (req, res, next) => {
 
   req.body.company = id;
   req.body.user = req.user;
-  console.log(req.user)
+  console.log(req.user);
 
   const exits = await Favorite.findOne({ company: id });
 
@@ -343,12 +343,23 @@ exports.addToFav = catchAsyncErrors(async (req, res, next) => {
     await exits.remove();
     return res
       .status(201)
-      .json({ success: true, message: "Removed from Wishlist" ,toogle:"remove" });
+      .json({
+        success: true,
+        message: "Removed from Wishlist",
+        toogle: "remove",
+      });
   }
 
   const fav = await Favorite.create(req.body);
 
-  res.status(200).json({ success: true, fav, message: "Business is added in your Wishlist",toogle:"add" });
+  res
+    .status(200)
+    .json({
+      success: true,
+      fav,
+      message: "Business is added in your Wishlist",
+      toogle: "add",
+    });
 });
 
 exports.getFav = catchAsyncErrors(async (req, res, next) => {
