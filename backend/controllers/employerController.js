@@ -69,6 +69,8 @@ const imageStructure = async (imageData) => {
 // Add Company (employer)
 
 exports.addCompany = catchAsyncErrors(async (req, res, next) => {
+
+  console.log(req.body)
   const { logo, coverImage } = req.body.registrationData;
 
   let images = [];

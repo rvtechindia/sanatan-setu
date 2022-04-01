@@ -166,7 +166,6 @@ const ListBusiness = ({ history }) => {
       }
     });
 
-    console.log(socialData);
     registrationData.logo = logo;
     registrationData.coverImage = coverImage;
     registrationData.social = socialData;
@@ -219,7 +218,7 @@ const ListBusiness = ({ history }) => {
       return;
     }
     const data = setCompanyData();
-    console.log(data)
+    console.log(data);
     await dispatch(newCompany(data));
     setLoading(false);
   };
