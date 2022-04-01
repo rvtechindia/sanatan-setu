@@ -27,7 +27,7 @@ import {
 import axios from "axios";
 import { notifyError, notifySuccess } from "../../utils/toast";
 
-const url = "http://localhost:3001";
+const url = "http://52.66.174.13:3001";
 
 // Login
 
