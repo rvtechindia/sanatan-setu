@@ -22,7 +22,7 @@ const ForgotPassword = () => {
       <Caption title="ForgotPassword">
         <Header />
       </Caption>
-      <AuthContainer>
+      <AuthContainer title=" " tagline=" " >
         <div className="col-md-4 mt-5" id="lost">
           <div className="title">Lost Password?</div>
           <div className="form">

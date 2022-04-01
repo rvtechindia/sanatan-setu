@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 import { ToastContainer } from "./utils/toast";
 import { Switch, Route, Redirect } from "react-router-dom";
@@ -16,23 +16,22 @@ import { useDispatch } from "react-redux";
 import Basic from "./pages/TestFormik";
 import AuthRoute from "./routes/AuthRoute";
 import ListBusiness from "./dashboard/ListBusiness";
+import ResetPassword from "./pages/ResetPassword";
 
 //import actions
 
-import {getCompanies} from "./redux/actions/companyAction"
-import {getCategories} from "./redux/actions/categoryAction"
+import { getCompanies } from "./redux/actions/companyAction";
+import { getCategories } from "./redux/actions/categoryAction";
 import ListingPage from "./pages/ListingPage";
 import FilterPage from "./pages/FilterPage";
 import Gallary from "./dashboard/Business/Gallary";
-
 
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     // dispatch(loadUser());
-    dispatch(getCompanies())
+    dispatch(getCompanies());
     dispatch(getCategories());
-    
   }, []);
 
   const [loader, setLoader] = useState(true);
@@ -51,8 +50,9 @@ function App() {
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/test" component={Basic} />
         <Route path="/business/:keyword" component={FilterPage} />
-        <Route path="/listbusiness" component={ListBusiness}/>
+        <Route path="/listbusiness" component={ListBusiness} />
         <Route path="/new/gallary" component={Gallary} />
+        <Route path="/password/reset/:token" component={ResetPassword} />
       </Switch>
       <Footer />
     </>

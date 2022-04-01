@@ -11,9 +11,13 @@ import { Loader } from "../../components/loader/Loader";
 
 import { apiURL } from "../../routes/api";
 
-const Gallary = ({ history }) => {
-  const [gallaryImage, setGallaryImage] = useState([]);
-  const [gallaryTitle, setGallaryTitle] = useState("");
+const Gallary = ({
+  history,
+  gallaryImage,
+  setGallaryImage,
+  gallaryTitle,
+  setGallaryTitle,
+}) => {
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async () => {
@@ -56,56 +60,56 @@ const Gallary = ({ history }) => {
   };
   return (
     <>
-      {loading && <Loader />}
-      <DashboardStructure captionTitle="Add a gallary">
-        <div className="col-md-12">
-          <div className="submit-job-form">
-            <div className="title">
-              <i className="far fa-images"></i> Add a New Gallary
-            </div>
-            <div className="form">
-              <div className="row">
-                <div className="col-md-6">
-                  <div className="input-group">
-                    <label>Gallay Title</label>
-                    <input
-                      type="text"
-                      placeholder="Enter Title"
-                      onChange={(e) => setGallaryTitle(e.target.value)}
-                    />
-                  </div>
+      {/* {loading && <Loader />} */}
+      {/* <DashboardStructure captionTitle="Add a gallary"> */}
+      <div className="col-md-12">
+        <div className="submit-job-form">
+          <div className="title">
+            <i className="far fa-images"></i> Add a New Gallary
+          </div>
+          <div className="form">
+            <div className="row">
+              <div className="col-md-6">
+                <div className="input-group">
+                  <label>Gallay Title</label>
+                  <input
+                    type="text"
+                    placeholder="Enter Title"
+                    onChange={(e) => setGallaryTitle(e.target.value)}
+                  />
                 </div>
-                <div className="col-md-6">
-                  <div className="input-group">
-                    <label>Gallery Images </label>
-                    <div className="file-area">
-                      <input
-                        type="file"
-                        name="gallery"
-                        id="gallery"
-                        required="required"
-                        multiple
-                        onChange={handleImage}
-                      />
-                      <div className="file-dummy">
-                        <div className="success">
-                          Great, your files are selected. Keep on.
-                        </div>
-                        <div className="default">
-                          <i className="fas fa-upload"></i>
-                          <br />
-                          Add Image
-                        </div>
+              </div>
+              <div className="col-md-6">
+                <div className="input-group">
+                  <label>Gallery Images </label>
+                  <div className="file-area">
+                    <input
+                      type="file"
+                      name="gallery"
+                      id="gallery"
+                      required="required"
+                      multiple
+                      onChange={handleImage}
+                    />
+                    <div className="file-dummy">
+                      <div className="success">
+                        Great, your files are selected. Keep on.
+                      </div>
+                      <div className="default">
+                        <i className="fas fa-upload"></i>
+                        <br />
+                        Add Image
                       </div>
                     </div>
-                    <p className="small">Maximum file size: 64 MB. </p>
                   </div>
+                  <p className="small">Maximum file size: 64 MB. </p>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div className="col-md-12 submit-job">
+      </div>
+      {/* <div className="col-md-12 submit-job">
           <button
             onClick={(e) => {
               e.preventDefault();
@@ -114,8 +118,8 @@ const Gallary = ({ history }) => {
           >
             Save & Preview
           </button>
-        </div>
-      </DashboardStructure>
+        </div> */}
+      {/* </DashboardStructure> */}
     </>
   );
 };

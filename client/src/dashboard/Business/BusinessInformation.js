@@ -37,6 +37,8 @@ const BusinessInformation = ({ setAddress, address }) => {
 
   const handleState = (e) => {
     const { value } = e.target;
+
+    console.log("state selected",value)
     setAddress({ ...address, state: value });
     fetchCity(value);
   };
@@ -71,8 +73,8 @@ const BusinessInformation = ({ setAddress, address }) => {
               </div>
               <div className="input-group">
                 <label>State</label>
-                <select>
-                  <option onChange={handleState}>Please select State</option>
+                <select  onChange={handleState}>
+                  <option>Please select State</option>
                   {state &&
                     state.map((item) => (
                       <option value={item._id}>{item.stateName}</option>

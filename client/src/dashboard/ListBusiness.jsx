@@ -1,22 +1,25 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Caption } from "../components/breadcrum/Caption";
-import Header from "../components/header/Header";
+
+//import utils
+import { validateBusinessDetails } from "../utils/Validator";
+import { notifyError, notifySuccess } from "../utils/toast";
+
+///imports actions
 import {
   getCategories,
   getAmenityByCategory,
   clearErrors,
 } from "../redux/actions/categoryAction";
-
-import { notifyError, notifySuccess } from "../utils/toast";
-
 import { newCompany } from "../redux/actions/companyAction";
 
+/// import components
+import { Caption } from "../components/breadcrum/Caption";
 import { Loader } from "../components/loader/Loader";
-
-///imports
-import { validateBusinessDetails } from "../utils/Validator";
+import Header from "../components/header/Header";
 import BusinessInformation from "./Business/BusinessInformation";
+import BusinessSocials from "./Business/BusinessSocials";
+import Gallary from "./Business/Gallary";
 
 const ListBusiness = ({ history }) => {
   const { category } = useSelector((state) => state.category);
@@ -29,6 +32,7 @@ const ListBusiness = ({ history }) => {
   const [error, setError] = useState({});
   const errorRef = useRef(null);
   const [loading, setLoading] = useState(false);
+  const [price, setPrice] = useState("");
 
   useEffect(() => {
     dispatch(getCategories());
@@ -46,6 +50,40 @@ const ListBusiness = ({ history }) => {
   useEffect(() => {
     window.scroll(0, 0);
   }, []);
+
+  const [registrationData, setRegistrationData] = useState({
+    businessName: "",
+    website: "",
+    size: "100",
+    founded: "1998",
+    tagline: "",
+    description: "",
+    companyType: "PVT LTD",
+    category: "",
+  });
+
+  const [address, setAddress] = useState({
+    add: "",
+    locality: "",
+    country: "",
+    state: "",
+    city: "",
+    pincode: "",
+    landmark: "",
+  });
+
+  const [social, setSocial] = useState({
+    facebook: "",
+    twitter: "",
+    instagram: "",
+    youtube: "",
+    linkedin: "",
+  });
+
+  const socialData = [];
+
+  const [gallaryImage, setGallaryImage] = useState([]);
+  const [gallaryTitle, setGallaryTitle] = useState("");
 
   const handleChange = (e) => {
     const { value, name } = e.target;
@@ -98,63 +136,52 @@ const ListBusiness = ({ history }) => {
     }
   };
 
-  const handleSubmit = async () => {
-    const error = validateBusinessDetails(registrationData);
-    setError(error);
-
-    if (Object.keys(error).length) {
-      notifyError("Please fill the empty fields");
-      window.scroll(0, 0);
-      return;
-    }
-    const data = setCompanyData(registrationData, logo, coverImage);
-    await dispatch(newCompany(data));
-    setLoading(false);
-  };
-
-  const [registrationData, setRegistrationData] = useState({
-    businessName: "",
-    website: "",
-    size: "100",
-    founded: "1998",
-    tagline: "",
-    description: "",
-    companyType: "PVT LTD",
-    category: "",
-  });
-
-  const [address, setAddress] = useState({
-    add: "",
-    locality: "",
-    country: "",
-    state: "",
-    city: "",
-    pincode: "",
-    landmark: "",
-  });
-
-  const setCompanyData = (data, logo, coverImage) => {
+  const setCompanyData = () => {
     setLoading(true);
-    const formData = new FormData();
-    formData.append("businessName", data.businessName);
-    formData.append("website", data.website);
-    formData.append("size", data.size);
-    formData.append("founded", data.founded);
+    // const formData = new FormData();
+    // formData.append("businessName", data.businessName);
+    // formData.append("website", data.website);
+    // formData.append("size", data.size);
+    // formData.append("founded", data.founded);
 
-    formData.append("tagline", data.tagline);
-    formData.append("description", data.description);
-    formData.append("companyType", data.companyType);
-    formData.append("category", data.category);
+    // formData.append("tagline", data.tagline);
+    // formData.append("description", data.description);
+    // formData.append("companyType", data.companyType);
+    // formData.append("category", data.category);
 
-    logo.forEach((image) => {
-      formData.append("logo", logo);
+    // logo.forEach((image) => {
+    //   formData.append("logo", logo);
+    // });
+
+    // coverImage.forEach((image) => {
+    //   formData.append("coverImage", coverImage);
+    // });
+
+    Object.keys(social).forEach((key) => {
+      if (social[key] != "") {
+        socialData.push({
+          socialType: key,
+          url: social[key],
+        });
+      }
     });
 
-    coverImage.forEach((image) => {
-      formData.append("coverImage", coverImage);
-    });
+    console.log(socialData);
+    registrationData.logo = logo;
+    registrationData.coverImage = coverImage;
+    registrationData.social = socialData;
+    if (price) registrationData.price = price;
 
-    return formData;
+    const newData = {
+      registrationData,
+      address,
+      gallary: {
+        title: gallaryTitle,
+        images: gallaryImage,
+      },
+    };
+
+    return newData;
   };
 
   const handleImage = (e) => {
@@ -180,6 +207,21 @@ const ListBusiness = ({ history }) => {
 
       reader.readAsDataURL(file);
     });
+  };
+
+  const handleSubmit = async () => {
+    const error = validateBusinessDetails(registrationData);
+    setError(error);
+
+    if (Object.keys(error).length) {
+      notifyError("Please fill the empty fields");
+      window.scroll(0, 0);
+      return;
+    }
+    const data = setCompanyData();
+    console.log(data)
+    await dispatch(newCompany(data));
+    setLoading(false);
   };
 
   return (
@@ -316,7 +358,6 @@ const ListBusiness = ({ history }) => {
                             name="logo"
                             id="logo"
                             required="required"
-                            multiple
                             onChange={handleImage}
                           />
                           <div className="file-dummy">
@@ -344,7 +385,6 @@ const ListBusiness = ({ history }) => {
                             name="cover"
                             id="cover"
                             required="required"
-                            multiple
                             onChange={handleImage}
                           />
                           <div className="file-dummy">
@@ -377,11 +417,11 @@ const ListBusiness = ({ history }) => {
                     <div className="col-md-4">
                       <div className="input-group">
                         <label>Price Range </label>
-                        <select>
-                          <option>Cheap</option>
-                          <option>Medium</option>
-                          <option>Premium</option>
-                          <option>Prefer not to say</option>
+                        <select onChange={(e) => setPrice(e.target.value)}>
+                          <option>Prefer to say</option>
+                          <option value="Cheap">Cheap</option>
+                          <option value="Medium">Medium</option>
+                          <option value="Premium">Premium</option>
                         </select>
                       </div>
                     </div>
@@ -390,57 +430,14 @@ const ListBusiness = ({ history }) => {
               </div>
             </div>
 
-            {/* gallary */}
-            <div className="col-md-12">
-              <div className="submit-job-form">
-                <div className="title">
-                  <i className="far fa-images"></i> Add a New Gallary
-                </div>
-                <div className="form">
-                  <div className="row">
-                    <div className="col-md-6">
-                      <div className="input-group">
-                        <label>Gallay Title</label>
-                        <input
-                          type="text"
-                          placeholder="Enter Title"
-                          // onChange={(e) => setGallaryTitle(e.target.value)}
-                        />
-                      </div>
-                    </div>
-                    <div className="col-md-6">
-                      <div className="input-group">
-                        <label>Gallery Images </label>
-                        <div className="file-area">
-                          <input
-                            type="file"
-                            name="gallery"
-                            id="gallery"
-                            required="required"
-                            multiple
-                            onChange={handleImage}
-                          />
-                          <div className="file-dummy">
-                            <div className="success">
-                              Great, your files are selected. Keep on.
-                            </div>
-                            <div className="default">
-                              <i className="fas fa-upload"></i>
-                              <br />
-                              Add Image
-                            </div>
-                          </div>
-                        </div>
-                        <p className="small">Maximum file size: 64 MB. </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* address */}
+            <Gallary
+              gallaryImage={gallaryImage}
+              setGallaryImage={setGallaryImage}
+              gallaryTitle={gallaryTitle}
+              setGallaryTitle={setGallaryTitle}
+            />
             <BusinessInformation address={address} setAddress={setAddress} />
+            <BusinessSocials social={social} setSocial={setSocial} />
 
             <div className="col-md-12 submit-job">
               <button

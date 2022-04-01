@@ -9,21 +9,24 @@ const AuthContainer = ({ children, title, tagline }) => {
             <div className="box">
               <div className="row justify-content-center">
                 <div className="col-md-12 text-center">
-                  <h2>Log in to your Account</h2>
-                  <div className="icon">
-                    <div className="eltd-separator">
-                      <span style={{ width: 85, height: 1 }}></span>
+                  <h2>{title ? title : "Log in to your Account"}</h2>
+                  {title?.length > 1 && (
+                    <div className="icon">
+                      <div className="eltd-separator">
+                        <span style={{ width: 85, height: 1 }}></span>
+                      </div>
+                      <div className="eltd-separator-icon">
+                        <i className="fas fa-cog"></i>
+                      </div>
+                      <div className="eltd-separator">
+                        <span style={{ width: 85, height: 1 }}></span>
+                      </div>
                     </div>
-                    <div className="eltd-separator-icon">
-                      <i className="fas fa-cog"></i>
-                    </div>
-                    <div className="eltd-separator">
-                      <span style={{ width: 85, height: 1 }}></span>
-                    </div>
-                  </div>
+                  )}
                   <p>
-                    To list your business or view details of other businesses on
-                    Sanatan Setu, Register or Login below.
+                    {tagline
+                      ? tagline
+                      : " To list your business or view details of other businesses on Sanatan Setu, Register or Login below."}
                   </p>
                 </div>
                 {children}

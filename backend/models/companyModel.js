@@ -4,7 +4,7 @@ const companySchema = new mongoose.Schema({
   businessName: {
     type: String,
     required: [true, "Please Enter Your Business Name"],
-    trim:true
+    trim: true,
   },
   website: {
     type: String,
@@ -88,11 +88,27 @@ const companySchema = new mongoose.Schema({
     enum: ["Premium", "Cheap", "Medium", "Prefer to say"],
     default: "Prefer to say",
   },
-  featured:{
-    type:String, 
-    enum:["true","false"],
-    default:false
-  }
+  featured: {
+    type: String,
+    enum: ["true", "false"],
+    default: false,
+  },
+  social: [
+    {
+      socialType: String,
+      url: String,
+    },
+  ],
+  businessHour: [
+    {
+      day: String,
+      dayType: {
+        type: String,
+        enum: ["Hours", "Open All Days", "Closed All Days"],
+      },
+      value: Date,
+    },
+  ],
 });
 
 module.exports = mongoose.model("Company", companySchema);
