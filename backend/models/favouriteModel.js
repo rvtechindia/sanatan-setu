@@ -4,7 +4,6 @@ const favouriteSchema = mongoose.Schema({
   businessName: {
     type: String,
     required: true,
-    unique: true,
   },
   createdAt: {
     type: Date,
