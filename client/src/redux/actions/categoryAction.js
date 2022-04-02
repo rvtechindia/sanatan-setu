@@ -8,8 +8,9 @@ import {
   AMENITY_FAIL,
 } from "../constants/categoryConstants";
 import axios from "axios";
+import { apiURL } from "../../routes/api";
 
-const url = "http://52.66.174.13:3001/api/v1";
+const url = `${apiURL}/api/v1`;
 
 // category
 export const getCategories = () => async (dispatch) => {

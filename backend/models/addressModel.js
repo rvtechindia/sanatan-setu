@@ -8,11 +8,7 @@ const addressSchema = new mongoose.Schema({
   locality: {
     type: String,
   },
-  country: {
-    type: mongoose.Schema.ObjectId,
-    ref: "Country",
-    // required: [true, "Please Enter Country"],
-  },
+ 
   state: {
     type: mongoose.Schema.ObjectId,
     ref: "State",

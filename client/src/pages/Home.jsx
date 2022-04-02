@@ -1,4 +1,4 @@
-import React,{ useEffect} from "react";
+import React, { useEffect } from "react";
 import HomeBanner from "../components/banner/HomeBanner";
 import { CategoryCard } from "../components/card/CategoryCard";
 import { ListCard } from "../components/card/ListCard";
@@ -13,10 +13,10 @@ export const Home = () => {
   const { company } = useSelector((state) => state.company);
   const { activeCategory } = useSelector((state) => state.category);
 
-  useEffect(() =>{
-    window.scroll(0,0)
-  },[])
- 
+  useEffect(() => {
+    window.scroll(0, 0);
+  }, []);
+
   return (
     <>
       <HomeBanner />
@@ -75,6 +75,7 @@ export const Home = () => {
                     location={item.location}
                     phone={item.phone}
                     image={item.image && item.image.url}
+                    RegistrationDate={item.RegistrationDate}
                     type={item.Status}
                   />
                 );

@@ -15,6 +15,7 @@ const ListingPage = ({ history }) => {
   const [keyword, setKeyword] = useState("");
   const [loading, setLoading] = useState(false);
   const [selectedCategory, setCategory] = useState("");
+  const [categoryName, setCategoryName] = useState("");
   const searchRef = useRef(null);
 
   useEffect(() => {
@@ -63,6 +64,47 @@ const ListingPage = ({ history }) => {
     setTimeout(() => setLoading(false), 1000);
   };
 
+  const [state, setState] = useState([]);
+  const [city, setCity] = useState([]);
+
+  const fetchState = async () => {
+    const config = {
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    };
+    await axios
+      .get(`${apiURL}/api/v1/get/all/state`, config)
+      .then((res) => {
+        setState(res.data.state);
+        console.log(res.data);
+      })
+      .catch((e) => console.log(e));
+  };
+
+  const fetchCity = async (id) => {
+    const config = {
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    };
+    await axios
+      .get(`${apiURL}/api/v1/get/city?id=${id}`, config)
+      .then((res) => setCity(res.data.city))
+      .catch((e) => console.log(e));
+  };
+
+  useEffect(() => {
+    fetchState();
+  }, []);
+
+  const handleState = (e) => {
+    const { value } = e.target;
+
+    fetchCity(value);
+  };
+
+  const handleCity = (e) => {
+    // setAddress({ ...address, city: e.target.value });
+  };
   // const searchByCategory = async (category) => {
   //   await axios
   //     .get(
@@ -88,10 +130,10 @@ const ListingPage = ({ history }) => {
                   Bharat.
                 </p>
               </div>
-              <div className="col-xl-10 col-lg-12 col-md-12 d-block mx-auto">
+              <div className="col-xl-12 col-lg-12 col-md-12 d-block mx-auto">
                 <div className="search-box">
                   <div className="row">
-                    <div className="col-md-7">
+                    <div className="col-md-4">
                       <div className="input-group">
                         <input
                           type="text"
@@ -106,17 +148,51 @@ const ListingPage = ({ history }) => {
                         />
                       </div>
                     </div>
-
-                    <div className="col-md-3">
+                    <div className="col-md-2">
+                      <div className="input-group">
+                        <select className="form-select" onChange={handleState}>
+                          <option selected>Select State</option>
+                          {state &&
+                            state.map((item) => (
+                              <option value={item._id}>{item.stateName}</option>
+                            ))}
+                        </select>
+                      </div>
+                    </div>
+                    <div className="col-md-2">
                       <div className="input-group">
                         <select
                           className="form-select"
-                          onChange={(e) => setCategory(e.target.value)}
+                          onChange={(e) => {
+                            setCategory(e.target.value);
+                          }}
+                        >
+                          <option selected>Select City</option>
+                          {city &&
+                            city.map((item) => (
+                              <option value={item._id}>{item.cityName}</option>
+                            ))}
+                        </select>
+                      </div>
+                    </div>
+
+                    <div className="col-md-2">
+                      <div className="input-group">
+                        <select
+                          className="form-select"
+                          onChange={(e) => {
+                            setCategory(e.target.value);
+                            // setCategoryName(e.target.name)
+                          }}
                         >
                           <option selected>Select Category</option>
                           {category?.map((item) => {
                             return (
-                              <option key={item._id} value={item._id}>
+                              <option
+                                key={item._id}
+                                value={item._id}
+                                name={item.businessCategory}
+                              >
                                 {item.businessCategory}
                               </option>
                             );
@@ -211,7 +287,13 @@ const ListingPage = ({ history }) => {
                   {searchData.length > 0
                     ? `Showing 1 – ${searchData && searchData.length} of ${
                         searchData && searchData.length
-                      } results for '${keyword}'`
+                      } results for '${
+                        keyword
+                          ? keyword
+                          : category.find(
+                              (item) => item._id === selectedCategory
+                            ).businessCategory
+                      }'`
                     : "No Result Found"}
                 </h5>
                 <p className="mb-5">

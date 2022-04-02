@@ -1,6 +1,8 @@
 import React from "react";
 import { Link, useHistory } from "react-router-dom";
 
+import moment from "moment";
+
 export const ListCard = ({
   category,
   image,
@@ -9,6 +11,7 @@ export const ListCard = ({
   phone,
   type,
   id,
+  RegistrationDate
 }) => {
   const history = useHistory();
   return (
@@ -38,6 +41,8 @@ export const ListCard = ({
               pathname: `/listDetails/${name.replace(" ", "-")}`,
               state: { id },
             }}
+
+            style={{textTransform:"capitalize"}}
           >
             {name}
           </Link>
@@ -47,9 +52,9 @@ export const ListCard = ({
           <span className="location">
             <i className="fas fa-map-marker-alt"></i> {location}
           </span>{" "}
-          {/* <span className="phone">
-            <i className="fas fa-phone-alt"></i> {phone}
-          </span>{" "} */}
+          <span className="phone">
+            <i className="fas fa-calendar-alt"></i> {moment(RegistrationDate).format('LL')}
+          </span>{" "}
         </div>
       </div>
     </div>

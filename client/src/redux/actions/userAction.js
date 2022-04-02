@@ -26,8 +26,9 @@ import {
 } from "../constants/userConstants";
 import axios from "axios";
 import { notifyError, notifySuccess } from "../../utils/toast";
+import {apiURL} from "../../routes/api"
 
-const url = "http://52.66.174.13:3001";
+const url = apiURL
 
 // Login
 

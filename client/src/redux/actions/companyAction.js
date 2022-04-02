@@ -25,8 +25,9 @@ import {
 import axios from "axios";
 
 import { notifySuccess, notifyError } from "../../utils/toast";
+import { apiURL } from "../../routes/api";
 
-const url = "http://52.66.174.13:3001/api/v1/employer";
+const url = `${apiURL}/api/v1/employer`;
 
 // category
 export const getCompanies = () => async (dispatch) => {
@@ -95,7 +96,7 @@ export const newCompany = (companyData) => async (dispatch) => {
     dispatch({ type: ADD_COMPANY_REQUEST });
 
     const config = {
-      headers: { "Content-Type": "multipart/form-data" },
+      headers: { "Content-Type": "application/json" },
       withCredentials: true,
     };
 

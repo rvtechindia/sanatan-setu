@@ -150,11 +150,11 @@ const ListBusiness = ({ history }) => {
     // formData.append("category", data.category);
 
     // logo.forEach((image) => {
-    //   formData.append("logo", logo);
+    //   formData.append("logo", image);
     // });
 
     // coverImage.forEach((image) => {
-    //   formData.append("coverImage", coverImage);
+    //   formData.append("coverImage", image);
     // });
 
     Object.keys(social).forEach((key) => {
@@ -166,8 +166,8 @@ const ListBusiness = ({ history }) => {
       }
     });
 
-    registrationData.logo = logo;
-    registrationData.coverImage = coverImage;
+    registrationData.logo = logo[0];
+    registrationData.coverImage = coverImage[0];
     registrationData.social = socialData;
     if (price) registrationData.price = price;
 
@@ -221,7 +221,9 @@ const ListBusiness = ({ history }) => {
     console.log(data);
     await dispatch(newCompany(data));
     setLoading(false);
+    history.push("/dashboard");
   };
+
 
   return (
     <>

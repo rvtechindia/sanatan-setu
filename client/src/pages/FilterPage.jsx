@@ -130,7 +130,7 @@ const ListingPage = ({ history }) => {
               <h2>
                 Discover Great Local
                 <br />
-                Businesses in Dubai
+                Businesses in Your Area
               </h2>
             </div>
             <div className="col-md-4">
